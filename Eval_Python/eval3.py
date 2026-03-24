@@ -4,10 +4,10 @@
 ## Ces fonctions doivent RETOURNER un résultat, pas juste l'afficher.
 
 ## ── Fonctions utilitaires fournies (eval1) ────────────────────────
-def add(a, b):
+def ajouter(a, b):
     return a + b
 
-def multiply(a, b):
+def multiplier(a, b):
     return a * b
 ## ──────────────────────────────────────────────────────────────────
 
@@ -21,17 +21,18 @@ def multiply(a, b):
 
 
 ## Retourne la somme de tous les entiers de 1 à n (inclus).
-## Exemple : sum_to(4) → 1 + 2 + 3 + 4 = 10
-def sum_to(n):
-    pass
+## Exemple : somme_a(4) → 1 + 2 + 3 + 4 = 10
+def somme_a(n):
+    pass  
+        
+        
 
 
 ## Retourne le nombre d'entiers pairs entre 1 et n (inclus).
-## Exemple : count_even_up_to(6) → 3  (2, 4, 6)
+## Exemple : somme_paire_a(6) → 3  (2, 4, 6)
 ## 💡 Rappel : tu peux réutiliser l'opérateur % ici !
-def count_even_up_to(n):
+def somme_paire_a(n):
     pass
-
 
 ## =========================================================
 ## PARTIE 2 – Boucles for sur des listes
@@ -41,23 +42,23 @@ def count_even_up_to(n):
 
 
 ## Retourne la somme de tous les éléments d'une liste.
-## Exemple : sum_list([1, 2, 3, 4]) → 10
-def sum_list(lst):
+## Exemple : somme_list([1, 2, 3, 4]) → 10
+def somme_liste(lst):
     pass
 
 
 ## Retourne le nombre de fois que val apparaît dans lst.
-## Exemple : count_occurrences([1, 2, 2, 3], 2) → 2
-def count_occurrences(lst, val):
+## Exemple : nombre_occurrences([1, 2, 2, 3], 2) → 2
+def nombre_occurrences(lst, val):
     pass
 
 
 ## Retourne le plus grand élément d'une liste.
-## Exemple : max_list([3, 1, 4, 1, 5, 9]) → 9
+## Exemple : max_liste([3, 1, 4, 1, 5, 9]) → 9
 ## 💡 Astuce : commence par supposer que le premier élément est le max,
 ##    puis parcours le reste pour vérifier.
 ## ⚠️  Interdiction d'utiliser la fonction max() de Python !
-def max_list(lst):
+def max_liste(lst):
     pass
 
 
@@ -76,9 +77,9 @@ def countdown(n):
 
 
 ## Retourne la somme de tous les entiers de 1 à n en utilisant while.
-## Exemple : sum_while(4) → 10
-## 💡 C'est le même résultat que sum_to() — mais avec while cette fois !
-def sum_while(n):
+## Exemple : somme_while(4) → 10
+## 💡 C'est le même résultat que somme_a() — mais avec while cette fois !
+def somme_while(n):
     pass
 
 
@@ -91,7 +92,7 @@ def sum_while(n):
 ##
 ## Utilise une boucle (for ou while, à toi de choisir !)
 ## et la fonction multiply() fournie en haut.
-def factorial(n):
+def factorielle(n):
     pass
 
 
@@ -111,26 +112,28 @@ def factorial(n):
 ## ⚠️  L'ordre des if/elif compte — commence par le cas le plus restrictif !
 def fizzbuzz(n):
     pass
+            
+            
 
 
 ## ── Affichage ─────────────────────────────────────────────────────
 print("PARTIE 1 ──────────────────────────────")
-print("sum_to(4)           :", sum_to(4))          # 10
-print("sum_to(10)          :", sum_to(10))          # 55
-print("count_even_up_to(6) :", count_even_up_to(6)) # 3
+print("somme_a(4)           :", somme_a(4))          # 10
+print("somme_a(10)          :", somme_a(10))          # 55
+print("somme_paire_a(6) :", somme_paire_a(6)) # 3
 
 print("\nPARTIE 2 ──────────────────────────────")
-print("sum_list([1,2,3,4]) :", sum_list([1, 2, 3, 4]))        # 10
-print("count_occurrences   :", count_occurrences([1,2,2,3],2)) # 2
-print("max_list            :", max_list([3, 1, 4, 1, 5, 9]))   # 9
+print("somme_liste([1,2,3,4]) :", somme_liste([1, 2, 3, 4]))        # 10
+print("nombre_occurrences   :", nombre_occurrences([1,2,2,3],2)) # 2
+print("max_liste            :", max_liste([3, 1, 4, 1, 5, 9]))   # 9
 
 print("\nPARTIE 3 ──────────────────────────────")
 print("countdown(3)        :", end=" ") ; countdown(3)          # 3 2 1 0
-print("sum_while(4)        :", sum_while(4))                    # 10
+print("somme_while(4)        :", somme_while(4))                    # 10
 
 print("\nPARTIE 4 ──────────────────────────────")
-print("factorial(0)        :", factorial(0))   # 1
-print("factorial(5)        :", factorial(5))   # 120
+print("factorielle(0)        :", factorielle(0))   # 1
+print("factorielle(5)        :", factorielle(5))   # 120
 
 print("\nPARTIE 5 ──────────────────────────────")
 print("fizzbuzz(15)        :", fizzbuzz(15))

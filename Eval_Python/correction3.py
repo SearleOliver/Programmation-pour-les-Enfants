@@ -35,11 +35,11 @@ def sum_to(n):
 ## Exemple : count_even_up_to(6) → 3  (2, 4, 6)
 ## 💡 Rappel : tu peux réutiliser l'opérateur % ici !
 def count_even_up_to(n):
-    num = 0
+    sum = 0
     for i in range(1,n+1):
         if i%2==0:
-            num+=1
-    return num
+            sum+=i
+    return sum
 
 ## =========================================================
 ## PARTIE 2 – Boucles for sur des listes
@@ -52,8 +52,8 @@ def count_even_up_to(n):
 ## Exemple : sum_list([1, 2, 3, 4]) → 10
 def sum_list(lst):
     sum = 0
-    for i in lst:
-        sum+=i
+    for e in lst:
+        sum+=e
     return sum
 
 

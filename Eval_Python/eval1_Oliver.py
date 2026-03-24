@@ -8,25 +8,25 @@
 ## PARTIE 1 – Fonctions de calcul
 ## ==============================
 
-def add(a, b):
+def ajouter(a, b):
     pass
 
-def substract(a, b):
+def soustraire(a, b):
     pass
 
-def multiply(a, b):
+def multiplier(a, b):
     pass
 
 ## Celui-ci est un peu spécial : il doit retourner un booléen,
 ## donc True si a est pair et False sinon.
 ## Rappel : le symbole % calcule le modulo.
-def is_even(a):
+def pair(a):
     pass
 
 ## Écris une fonction qui compare a et b en retournant
 ## "a < b", "a > b" ou "a == b".
 ## Attention : les retours doivent être exactement comme indiqué ici. Attention pas de print !
-def compare(a, b):
+def comparer(a, b):
     pass
 
 
@@ -36,7 +36,7 @@ def compare(a, b):
 
 ## Pour une fonction carré, est-ce qu'il y a une manière
 ## de réutiliser nos fonctions préexistantes ?
-def square(a):
+def carre(a):
     pass
 
 ## Pour la dernière question on va réutiliser nos fonctions
@@ -46,17 +46,17 @@ def square(a):
 ##
 ## On sépare le membre gauche et le membre droit :
 
-def difference_squares_left(a, b):
+def difference_carres_gauche(a, b):
     ## Calcule (a + b) × (a - b)
     ## Utilise add, substract et multiply
     pass
 
-def difference_squares_right(a, b):
+def difference_carres_droite(a, b):
     ## Calcule a² - b²
     ## Utilise square et substract
     pass
 
 ## Affichage du résultat :
-left  = difference_squares_left(4, 7)
-right = difference_squares_right(4, 7)
-print(compare(left, right))
+left  = difference_carres_gauche(4, 7)
+right = difference_carres_droite(4, 7)
+print(comparer(left, right))
