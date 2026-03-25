@@ -48,66 +48,66 @@ def test_reuse(result, expected, label):
 
 def run_tests():
 
-    # --- rectangle_perimeter : 2 * (l + w) ---
-    test(eval2.rectangle_perimeter, 14,  4,  3)
-    test(eval2.rectangle_perimeter, 20,  6,  4)
-    test(eval2.rectangle_perimeter,  8,  2,  2)
-    test(eval2.rectangle_perimeter, 22, 10,  1)
-    test(eval2.rectangle_perimeter,  0,  0,  0)
+    # --- perimetre_rectangle : 2 * (l + w) ---
+    test(eval2.perimetre_rectangle, 14,  4,  3)
+    test(eval2.perimetre_rectangle, 20,  6,  4)
+    test(eval2.perimetre_rectangle,  8,  2,  2)
+    test(eval2.perimetre_rectangle, 22, 10,  1)
+    test(eval2.perimetre_rectangle,  0,  0,  0)
 
-    # --- rectangle_area : l * w ---
-    test(eval2.rectangle_area, 12,  4,  3)
-    test(eval2.rectangle_area, 24,  6,  4)
-    test(eval2.rectangle_area,  0,  5,  0)
-    test(eval2.rectangle_area,  1,  1,  1)
-    test(eval2.rectangle_area,100, 10, 10)
+    # --- surface_rectangle : l * w ---
+    test(eval2.surface_rectangle, 12,  4,  3)
+    test(eval2.surface_rectangle, 24,  6,  4)
+    test(eval2.surface_rectangle,  0,  5,  0)
+    test(eval2.surface_rectangle,  1,  1,  1)
+    test(eval2.surface_rectangle,100, 10, 10)
 
     # --- square_perimeter ---
-    # Must equal rectangle_perimeter(a, a) — tests reuse.
+    # Must equal perimetre_rectangle(a, a) — tests reuse.
     # Uses test_reuse so that None == None cannot pass.
     for a in [1, 3, 5, 7, 10]:
-        expected = eval2.rectangle_perimeter(a, a)
+        expected = eval2.perimetre_rectangle(a, a)
         try:
             result = eval2.square_perimeter(a)
         except Exception as e:
             global TOTAL_TESTS, PASSED_TESTS
             TOTAL_TESTS += 1
-            FAILED_DETAILS.append(f"  💥 square_perimeter({a}) → erreur : {e}")
+            FAILED_DETAILS.append(f"  💥 perimetre_carre({a}) → erreur : {e}")
             continue
-        test_reuse(result, expected, f"square_perimeter({a})")
+        test_reuse(result, expected, f"perimetre_carre({a})")
 
     # --- square_area ---
-    # Must equal rectangle_area(a, a) — tests reuse.
+    # Must equal surface_rectangle(a, a) — tests reuse.
     for a in [1, 3, 5, 7, 10]:
-        expected = eval2.rectangle_area(a, a)
+        expected = eval2.surface_rectangle(a, a)
         try:
-            result = eval2.square_area(a)
+            result = eval2.surface_carre(a)
         except Exception as e:
             TOTAL_TESTS += 1
-            FAILED_DETAILS.append(f"  💥 square_area({a}) → erreur : {e}")
+            FAILED_DETAILS.append(f"  💥 surface_carre({a}) → erreur : {e}")
             continue
-        test_reuse(result, expected, f"square_area({a})")
+        test_reuse(result, expected, f"surface_carre({a})")
 
     # --- triangle_perimeter : a + b + c ---
-    test(eval2.triangle_perimeter, 12,  3,  4,  5)
-    test(eval2.triangle_perimeter,  9,  3,  3,  3)
-    test(eval2.triangle_perimeter, 15,  5,  5,  5)
-    test(eval2.triangle_perimeter, 11,  2,  4,  5)
-    test(eval2.triangle_perimeter,  0,  0,  0,  0)
+    test(eval2.perimetre_triangle, 12,  3,  4,  5)
+    test(eval2.perimetre_triangle,  9,  3,  3,  3)
+    test(eval2.perimetre_triangle, 15,  5,  5,  5)
+    test(eval2.perimetre_triangle, 11,  2,  4,  5)
+    test(eval2.perimetre_triangle,  0,  0,  0,  0)
 
     # --- is_equilateral ---
-    test(eval2.is_equilateral, True,   3,  3,  3)
-    test(eval2.is_equilateral, True,   7,  7,  7)
-    test(eval2.is_equilateral, False,  3,  3,  4)
-    test(eval2.is_equilateral, False,  3,  4,  5)
-    test(eval2.is_equilateral, False,  1,  2,  1)
+    test(eval2.equilateral, True,   3,  3,  3)
+    test(eval2.equilateral, True,   7,  7,  7)
+    test(eval2.equilateral, False,  3,  3,  4)
+    test(eval2.equilateral, False,  3,  4,  5)
+    test(eval2.equilateral, False,  1,  2,  1)
 
     # --- compare_areas ---
-    test(eval2.compare_areas, "rectangle",  4,  3,  3)  # 12 > 9
-    test(eval2.compare_areas, "square",      2,  3,  3)  # 6  < 9
-    test(eval2.compare_areas, "equal",       3,  3,  3)  # 9 == 9
-    test(eval2.compare_areas, "rectangle", 10,  1,  3)  # 10 > 9
-    test(eval2.compare_areas, "square",      1,  1,  5)  # 1  < 25
+    test(eval2.comparer_surfaces, "rectangle",  4,  3,  3)  # 12 > 9
+    test(eval2.comparer_surfaces, "carre",      2,  3,  3)  # 6  < 9
+    test(eval2.comparer_surfaces, "égaux",       3,  3,  3)  # 9 == 9
+    test(eval2.comparer_surfaces, "rectangle", 10,  1,  3)  # 10 > 9
+    test(eval2.comparer_surfaces, "carre",      1,  1,  5)  # 1  < 25
 
     # --- polynomial : ax² + bx + c ---
     test(eval2.polynomial,  3,  0,  0,  3, 99)  # 0+0+3       = 3

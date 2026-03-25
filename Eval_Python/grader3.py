@@ -28,55 +28,55 @@ def test(func, expected, *args):
 
 def run_tests():
 
-    # --- sum_to : 1 + 2 + ... + n ---
-    test(eval3.sum_to,  0,  0)   # aucun entier à additionner
-    test(eval3.sum_to,  1,  1)
-    test(eval3.sum_to, 10,  4)   # 1+2+3+4
-    test(eval3.sum_to, 15,  5)   # 1+2+3+4+5
-    test(eval3.sum_to, 55, 10)   # classique
+    # --- somme_a : 1 + 2 + ... + n ---
+    test(eval3.somme_a,  0,  0)   # aucun entier à additionner
+    test(eval3.somme_a,  1,  1)
+    test(eval3.somme_a, 10,  4)   # 1+2+3+4
+    test(eval3.somme_a, 15,  5)   # 1+2+3+4+5
+    test(eval3.somme_a, 55, 10)   # classique
 
-    # --- count_even_up_to ---
-    test(eval3.count_even_up_to, 0,  1)   # 1..1 : aucun pair
-    test(eval3.count_even_up_to, 1,  2)   # 1..2 : juste 2
-    test(eval3.count_even_up_to, 2,  5)   # 1..5 : 2 et 4
-    test(eval3.count_even_up_to, 3,  6)   # 1..6 : 2, 4, 6
-    test(eval3.count_even_up_to, 5, 10)   # 1..10 : 2,4,6,8,10
+    # --- somme_paire_a ---
+    test(eval3.somme_paire_a, 0,  1)   # 1..1 : aucun pair
+    test(eval3.somme_paire_a, 1,  2)   # 1..2 : juste 2
+    test(eval3.somme_paire_a, 2,  5)   # 1..5 : 2 et 4
+    test(eval3.somme_paire_a, 3,  6)   # 1..6 : 2, 4, 6
+    test(eval3.somme_paire_a, 5, 10)   # 1..10 : 2,4,6,8,10
 
-    # --- sum_list ---
-    test(eval3.sum_list,  0, [])
-    test(eval3.sum_list,  1, [1])
-    test(eval3.sum_list, 10, [1, 2, 3, 4])
-    test(eval3.sum_list, 15, [1, 2, 3, 4, 5])
-    test(eval3.sum_list,  0, [-3, 0, 3])     # négatifs qui s'annulent
+    # --- somme_liste ---
+    test(eval3.somme_liste,  0, [])
+    test(eval3.somme_liste,  1, [1])
+    test(eval3.somme_liste, 10, [1, 2, 3, 4])
+    test(eval3.somme_liste, 15, [1, 2, 3, 4, 5])
+    test(eval3.somme_liste,  0, [-3, 0, 3])     # négatifs qui s'annulent
 
-    # --- count_occurrences ---
-    test(eval3.count_occurrences, 0, [],        1)   # liste vide
-    test(eval3.count_occurrences, 1, [1],       1)
-    test(eval3.count_occurrences, 2, [1,2,2,3], 2)
-    test(eval3.count_occurrences, 0, [1,2,3],   9)   # valeur absente
-    test(eval3.count_occurrences, 3, [5,5,5],   5)   # tous identiques
+    # --- nombre_occurrences ---
+    test(eval3.nombre_occurrences, 0, [],        1)   # liste vide
+    test(eval3.nombre_occurrences, 1, [1],       1)
+    test(eval3.nombre_occurrences, 2, [1,2,2,3], 2)
+    test(eval3.nombre_occurrences, 0, [1,2,3],   9)   # valeur absente
+    test(eval3.nombre_occurrences, 3, [5,5,5],   5)   # tous identiques
 
     # --- max_list ---
-    test(eval3.max_list,  1, [1])
-    test(eval3.max_list,  9, [3, 1, 4, 1, 5, 9])
-    test(eval3.max_list,  0, [-3, -1, 0])
-    test(eval3.max_list, 42, [10, 42, 7])
-    test(eval3.max_list,  5, [5, 5, 5])        # tous égaux
+    test(eval3.max_liste,  1, [1])
+    test(eval3.max_liste,  9, [3, 1, 4, 1, 5, 9])
+    test(eval3.max_liste,  0, [-3, -1, 0])
+    test(eval3.max_liste, 42, [10, 42, 7])
+    test(eval3.max_liste,  5, [5, 5, 5])        # tous égaux
 
     # --- sum_while : même résultat que sum_to mais avec while ---
-    test(eval3.sum_while,  0,  0)
-    test(eval3.sum_while,  1,  1)
-    test(eval3.sum_while, 10,  4)
-    test(eval3.sum_while, 15,  5)
-    test(eval3.sum_while, 55, 10)
+    test(eval3.somme_while,  0,  0)
+    test(eval3.somme_while,  1,  1)
+    test(eval3.somme_while, 10,  4)
+    test(eval3.somme_while, 15,  5)
+    test(eval3.somme_while, 55, 10)
 
     # --- factorial ---
-    test(eval3.factorial,   1,  0)   # 0! = 1 — erreur fréquente de retourner 0 !
-    test(eval3.factorial,   1,  1)
-    test(eval3.factorial,   2,  2)
-    test(eval3.factorial,   6,  3)
-    test(eval3.factorial,  24,  4)
-    test(eval3.factorial, 120,  5)
+    test(eval3.factorielle,   1,  0)   # 0! = 1 — erreur fréquente de retourner 0 !
+    test(eval3.factorielle,   1,  1)
+    test(eval3.factorielle,   2,  2)
+    test(eval3.factorielle,   6,  3)
+    test(eval3.factorielle,  24,  4)
+    test(eval3.factorielle, 120,  5)
 
     # --- fizzbuzz ---
     test(eval3.fizzbuzz, [], 0)
