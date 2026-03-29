@@ -28,118 +28,127 @@ def test(func, expected, *args):
             f"  💥 {func_name}{args} → erreur : {e}"
         )
 
-def grade_student(student, student_name):
-    total = 0
+def grade_student(student):
+    def run_tests(tests, label):
+        passed = 0
+        total = len(tests)
+        failures = []
+
+        for func, expected, args in tests:
+            try:
+                result = func(*args)
+                if result == expected:
+                    passed += 1
+                else:
+                    failures.append(
+                        f"  ❌ {label}{args} → reçu {repr(result)}, attendu {repr(expected)}"
+                    )
+            except Exception as e:
+                failures.append(
+                    f"  💥 {label}{args} → erreur : {e}"
+                )
+
+        return passed, total, failures
+
+    results = {}
+    all_failures = []
+
+    # --- perimetre_rectangle ---
+    results["perimetre_rectangle"] = run_tests([
+        (student.perimetre_rectangle, 14, (4, 3)),
+        (student.perimetre_rectangle, 20, (6, 4)),
+        (student.perimetre_rectangle, 8,  (2, 2)),
+        (student.perimetre_rectangle, 22, (10, 1)),
+        (student.perimetre_rectangle, 0,  (0, 0)),
+    ], "perimetre_rectangle")
+
+    # --- surface_rectangle ---
+    results["surface_rectangle"] = run_tests([
+        (student.surface_rectangle, 12, (4, 3)),
+        (student.surface_rectangle, 24, (6, 4)),
+        (student.surface_rectangle, 0,  (5, 0)),
+        (student.surface_rectangle, 1,  (1, 1)),
+        (student.surface_rectangle,100,(10,10)),
+    ], "surface_rectangle")
+
+    # --- perimetre_carre (reuse) ---
+    def test_reuse_perimetre_carre(a):
+        try:
+            expected = student.perimetre_rectangle(a, a)
+            result = student.perimetre_carre(a)
+            return result == expected, f"perimetre_carre({a})"
+        except Exception as e:
+            return False, f"💥 perimetre_carre({a}) → erreur : {e}"
+
     passed = 0
-
-    def test(func, expected, *args):
-        nonlocal total, passed
-        total += 1
-        try:
-            if func(*args) == expected:
-                passed += 1
-        except:
-            pass
-        
-def test_reuse(result, expected, label):
-    """Used for tests where expected is computed from another student function.
-    Guards against None == None passing when neither function is implemented."""
-    global TOTAL_TESTS, PASSED_TESTS
-    TOTAL_TESTS += 1
-    if expected is None:
-        FAILED_DETAILS.append(
-            f"  ⚠️  {label} → fonction de référence non implémentée, impossible de comparer"
-        )
-    elif result is None:
-        FAILED_DETAILS.append(
-            f"  ❌ {label} → reçu None, attendu {repr(expected)}"
-        )
-    elif result == expected:
-        PASSED_TESTS += 1
-    else:
-        FAILED_DETAILS.append(
-            f"  ❌ {label} → reçu {repr(result)}, attendu {repr(expected)}"
-        )
-
-    # --- perimetre_rectangle : 2 * (l + w) ---
-    test(student.perimetre_rectangle, 14,  4,  3)
-    test(student.perimetre_rectangle, 20,  6,  4)
-    test(student.perimetre_rectangle,  8,  2,  2)
-    test(student.perimetre_rectangle, 22, 10,  1)
-    test(student.perimetre_rectangle,  0,  0,  0)
-
-    # --- surface_rectangle : l * w ---
-    test(student.surface_rectangle, 12,  4,  3)
-    test(student.surface_rectangle, 24,  6,  4)
-    test(student.surface_rectangle,  0,  5,  0)
-    test(student.surface_rectangle,  1,  1,  1)
-    test(student.surface_rectangle,100, 10, 10)
-
-    # --- square_perimeter ---
-    # Must equal perimetre_rectangle(a, a) — tests reuse.
-    # Uses test_reuse so that None == None cannot pass.
+    total = 5
+    failures = []
     for a in [1, 3, 5, 7, 10]:
-        expected = student.perimetre_rectangle(a, a)
-        try:
-            result = student.square_perimeter(a)
-        except Exception as e:
-            global TOTAL_TESTS, PASSED_TESTS
-            TOTAL_TESTS += 1
-            FAILED_DETAILS.append(f"  💥 perimetre_carre({a}) → erreur : {e}")
-            continue
-        test_reuse(result, expected, f"perimetre_carre({a})")
+        ok, msg = test_reuse_perimetre_carre(a)
+        if ok:
+            passed += 1
+        else:
+            failures.append(msg)
 
-    # --- square_area ---
-    # Must equal surface_rectangle(a, a) — tests reuse.
+    results["perimetre_carre"] = (passed, total, failures)
+
+    # --- surface_carre ---
+    passed = 0
+    total = 5
+    failures = []
     for a in [1, 3, 5, 7, 10]:
-        expected = student.surface_rectangle(a, a)
         try:
+            expected = student.surface_rectangle(a, a)
             result = student.surface_carre(a)
+            if result == expected:
+                passed += 1
+            else:
+                failures.append(
+                    f"❌ surface_carre({a}) → reçu {result}, attendu {expected}"
+                )
         except Exception as e:
-            TOTAL_TESTS += 1
-            FAILED_DETAILS.append(f"  💥 surface_carre({a}) → erreur : {e}")
-            continue
-        test_reuse(result, expected, f"surface_carre({a})")
+            failures.append(f"💥 surface_carre({a}) → erreur : {e}")
 
-    # --- triangle_perimeter : a + b + c ---
-    test(student.perimetre_triangle, 12,  3,  4,  5)
-    test(student.perimetre_triangle,  9,  3,  3,  3)
-    test(student.perimetre_triangle, 15,  5,  5,  5)
-    test(student.perimetre_triangle, 11,  2,  4,  5)
-    test(student.perimetre_triangle,  0,  0,  0,  0)
+    results["surface_carre"] = (passed, total, failures)
 
-    # --- is_equilateral ---
-    test(student.equilateral, True,   3,  3,  3)
-    test(student.equilateral, True,   7,  7,  7)
-    test(student.equilateral, False,  3,  3,  4)
-    test(student.equilateral, False,  3,  4,  5)
-    test(student.equilateral, False,  1,  2,  1)
+    # --- perimetre_triangle ---
+    results["perimetre_triangle"] = run_tests([
+        (student.perimetre_triangle, 12, (3,4,5)),
+        (student.perimetre_triangle, 9,  (3,3,3)),
+        (student.perimetre_triangle,15,  (5,5,5)),
+        (student.perimetre_triangle,11,  (2,4,5)),
+        (student.perimetre_triangle,0,   (0,0,0)),
+    ], "perimetre_triangle")
 
-    # --- compare_areas ---
-    test(student.comparer_surfaces, "rectangle",  4,  3,  3)  # 12 > 9
-    test(student.comparer_surfaces, "carre",      2,  3,  3)  # 6  < 9
-    test(student.comparer_surfaces, "égaux",       3,  3,  3)  # 9 == 9
-    test(student.comparer_surfaces, "rectangle", 10,  1,  3)  # 10 > 9
-    test(student.comparer_surfaces, "carre",      1,  1,  5)  # 1  < 25
+    # --- equilateral ---
+    results["equilateral"] = run_tests([
+        (student.equilateral, True,  (3,3,3)),
+        (student.equilateral, True,  (7,7,7)),
+        (student.equilateral, False, (3,3,4)),
+        (student.equilateral, False, (3,4,5)),
+        (student.equilateral, False, (1,2,1)),
+    ], "equilateral")
 
-    # --- polynomial : ax² + bx + c ---
-    test(student.polynomial,  3,  0,  0,  3, 99)  # 0+0+3       = 3
-    test(student.polynomial,  6,  1,  0,  2,  2)  # 4+0+2       = 6
-    test(student.polynomial, 27,  1,  2,  3,  4)  # 16+8+3      = 27
-    test(student.polynomial,  0,  1,  0,  0,  0)  # 0+0+0       = 0
-    test(student.polynomial, 11,  2,  1,  1,  2)  # 8+2+1       = 11
-    test(student.polynomial,  5, -1,  0,  6,  1)  # -1+0+6      = 5
+    # --- comparer_surfaces ---
+    results["comparer_surfaces"] = run_tests([
+        (student.comparer_surfaces, "rectangle", (4,3,3)),
+        (student.comparer_surfaces, "carré",     (2,3,3)),
+        (student.comparer_surfaces, "égaux",      (3,3,3)),
+        (student.comparer_surfaces, "rectangle", (10,1,3)),
+        (student.comparer_surfaces, "carré",     (1,1,5)),
+    ], "comparer_surfaces")
 
-    percentage = (passed / total) * 100
+    # --- polynomial ---
+    results["polynomial"] = run_tests([
+        (student.polynomial, 3,  (0,0,3,99)),
+        (student.polynomial, 6,  (1,0,2,2)),
+        (student.polynomial, 27, (1,2,3,4)),
+        (student.polynomial, 0,  (1,0,0,0)),
+        (student.polynomial, 11, (2,1,1,2)),
+        (student.polynomial, 5,  (-1,0,6,1)),
+    ], "polynomial")
 
-    if percentage == 100:
-        level = "Advanced"
-    elif percentage >= 60:
-        level = "Intermediate"
-    else:
-        level = "Beginner"
-
-    return passed, total, level
+    return results
 
 
 def main():
@@ -149,8 +158,8 @@ def main():
         print("No student files found.")
         return
 
-    with open("results.csv", "w") as f:
-        f.write("Name,Score,Total,Level\n")
+    with open("results_eval2.csv", "w") as f:
+        f.write("Name,perimetre_rectangle,surface_rectangle,perimetre_carre,surface_carre,perimetre_triangle,equilateral,comparer_surfaces,polynomial,Total,Level\n")
 
         for file in files:
             student_name = file.replace("eval2_", "").replace(".py", "")
@@ -158,11 +167,33 @@ def main():
 
             try:
                 student = load_student(file)
-                passed, total, level = grade_student(student, student_name)
+                results = grade_student(student)
 
-                print(f"{student_name}: {passed}/{total} ({level})")
+                print(f"\n--- {student_name} ---")
 
-                f.write(f"{student_name},{passed},{total},{level}\n")
+                total_passed = 0
+                total_tests = 0
+
+                for exercise, (passed, total, failures) in results.items():
+                    print(f"{exercise}: {passed}/{total}")
+                    total_passed += passed
+                    total_tests += total
+
+                    for fail in failures:
+                        print(fail)
+
+                percentage = (total_passed / total_tests) * 100
+
+                if percentage == 100:
+                    level = "Advanced"
+                elif percentage >= 60:
+                    level = "Intermediate"
+                else:
+                    level = "Beginner"
+
+                print(f"\nTOTAL: {total_passed}/{total_tests} ({level})\n")
+
+                f.write("Name,perimetre_rectangle,surface_rectangle,perimetre_carre,surface_carre,perimetre_triangle,equilateral,comparer_surfaces,polynomial,Total,Level\n")
 
             except Exception:
                 print(f"{student_name}: ERROR")

@@ -25,12 +25,12 @@ def diviser(a, b):
 ## =====================
 
 ## Calcule le périmètre d'un rectangle : 2 × (longueur + largeur)
-## Utilise multiply et add.
+## Utilise multiplier et ajouter.
 def perimetre_rectangle(length, width):
     pass
 
 ## Calcule l'aire d'un rectangle : longueur × largeur
-## Utilise multiply.
+## Utilise multiplier.
 def surface_rectangle(length, width):
     pass
 
@@ -40,7 +40,7 @@ def surface_rectangle(length, width):
 
 ## Calcule le périmètre d'un carré.
 ## 💡 Astuce : un carré est un rectangle dont les deux côtés sont égaux...
-##    Est-ce qu'on peut réutiliser rectangle_perimeter ?
+##    Est-ce qu'on peut réutiliser perimetre_rectangle ?
 def perimetre_carre(a):
     pass
 
@@ -54,7 +54,7 @@ def surface_carre(a):
 ## ====================
 
 ## Calcule le périmètre d'un triangle : somme de ses 3 côtés.
-## Utilise add.
+## Utilise ajouter.
 def perimetre_triangle(a, b, c):
     pass
 
@@ -67,11 +67,11 @@ def equilateral(a, b, c):
 ## PARTIE 4 – Comparaison de formes
 ## ==================================
 
-## Retourne "rectangle" si le rectangle est plus grand, "square" si le carré
-## est plus grand, ou "equal" si les deux ont la même aire.
+## Retourne "rectangle" si le rectangle est plus grand, "carré" si le carré
+## est plus grand, ou "égaux" si les deux ont la même aire.
 ## Paramètres : les côtés du rectangle (l, w) et le côté du carré (a).
-## Utilise rectangle_area, square_area.
-## 💡 Les retours doivent être exactement : "rectangle", "carré", "egal"
+## Utilise surface_rectangle, surface_carre.
+## 💡 Les retours doivent être exactement : "rectangle", "carré", "égaux"
 def comparer_surfaces(l, w, a):
     pass
 

@@ -8,73 +8,79 @@ def load_student(file_name):
     return module
 
 
-def grade_student(student, student_name):
-    total = 0
-    passed = 0
+def grade_student(student):
+    def run_tests(tests):
+        passed = 0
+        total = len(tests)
 
-    def test(func, expected, *args):
-        nonlocal total, passed
-        total += 1
-        try:
-            if func(*args) == expected:
-                passed += 1
-        except:
-            pass
+        for func, expected, args in tests:
+            try:
+                if func(*args) == expected:
+                    passed += 1
+            except:
+                pass
+
+        return passed, total
+
+    results = {}
 
     # --- ajouter ---
-    test(student.ajouter,  3,   1,   2)
-    test(student.ajouter,  0,  -1,   1)
-    test(student.ajouter, 15,  10,   5)
-    test(student.ajouter,  0,   0,   0)
-    test(student.ajouter, -5,  -2,  -3)
+    results["ajouter"] = run_tests([
+        (student.ajouter, 3, (1, 2)),
+        (student.ajouter, 0, (-1, 1)),
+        (student.ajouter, 15, (10, 5)),
+        (student.ajouter, 0, (0, 0)),
+        (student.ajouter, -5, (-2, -3)),
+    ])
 
     # --- soustraire ---
-    test(student.soustraire,  1,   3,  2)
-    test(student.soustraire,  6,   3, -3)
-    test(student.soustraire, -6,  -3,  3)
-    test(student.soustraire,  0,   5,  5)
-    test(student.soustraire, 42,  42,  0)
+    results["soustraire"] = run_tests([
+        (student.soustraire, 1, (3, 2)),
+        (student.soustraire, 6, (3, -3)),
+        (student.soustraire, -6, (-3, 3)),
+        (student.soustraire, 0, (5, 5)),
+        (student.soustraire, 42, (42, 0)),
+    ])
 
     # --- multiplier ---
-    test(student.multiplier, 18,   3,   6)
-    test(student.multiplier, 18,  -3,  -6)
-    test(student.multiplier,-18,   3,  -6)
-    test(student.multiplier,  0,   5,   0)
-    test(student.multiplier,  7,   1,   7)
+    results["multiplier"] = run_tests([
+        (student.multiplier, 18, (3, 6)),
+        (student.multiplier, 18, (-3, -6)),
+        (student.multiplier, -18, (3, -6)),
+        (student.multiplier, 0, (5, 0)),
+        (student.multiplier, 7, (1, 7)),
+    ])
 
     # --- pair ---
-    test(student.pair, True,   2)
-    test(student.pair, False,  3)
-    test(student.pair, True,   0)
-    test(student.pair, False,  1)
-    test(student.pair, True,  -4)
-    test(student.pair, False, -7)
+    results["pair"] = run_tests([
+        (student.pair, True, (2,)),
+        (student.pair, False, (3,)),
+        (student.pair, True, (0,)),
+        (student.pair, False, (1,)),
+        (student.pair, True, (-4,)),
+        (student.pair, False, (-7,)),
+    ])
 
     # --- carre ---
-    test(student.carre,  0,  0)
-    test(student.carre,  1,  1)
-    test(student.carre,  9,  3)
-    test(student.carre, 25,  5)
-    test(student.carre,  9, -3)
+    results["carre"] = run_tests([
+        (student.carre, 0, (0,)),
+        (student.carre, 1, (1,)),
+        (student.carre, 9, (3,)),
+        (student.carre, 25, (5,)),
+        (student.carre, 9, (-3,)),
+    ])
 
     # --- comparer ---
-    test(student.comparer, "a > b",  5,  3)
-    test(student.comparer, "a < b",  2,  7)
-    test(student.comparer, "a == b", 4,  4)
-    test(student.comparer, "a < b", -1,  0)
-    test(student.comparer, "a > b",  0, -1)
-    test(student.comparer, "a == b", 0,  0)
+    results["comparer"] = run_tests([
+        (student.comparer, "a > b", (5, 3)),
+        (student.comparer, "a < b", (2, 7)),
+        (student.comparer, "a == b", (4, 4)),
+        (student.comparer, "a < b", (-1, 0)),
+        (student.comparer, "a > b", (0, -1)),
+        (student.comparer, "a == b", (0, 0)),
+    ])
 
-    percentage = (passed / total) * 100
-
-    if percentage == 100:
-        level = "Advanced"
-    elif percentage >= 60:
-        level = "Intermediate"
-    else:
-        level = "Beginner"
-
-    return passed, total, level
+    return results
 
 
 def main():
@@ -84,8 +90,8 @@ def main():
         print("No student files found.")
         return
 
-    with open("results.csv", "w") as f:
-        f.write("Name,Score,Total,Level\n")
+    with open("results_eval1.csv", "w") as f:
+        f.write("Name,ajouter,soustraire,multiplier,pair,carre,comparer,Total,Level\n")
 
         for file in files:
             student_name = file.replace("eval1_", "").replace(".py", "")
@@ -93,11 +99,39 @@ def main():
 
             try:
                 student = load_student(file)
-                passed, total, level = grade_student(student, student_name)
+                results = grade_student(student)
 
-                print(f"{student_name}: {passed}/{total} ({level})")
+                print(f"\n--- {student_name} ---")
 
-                f.write(f"{student_name},{passed},{total},{level}\n")
+                total_passed = 0
+                total_tests = 0
+
+                for exercise, (passed, total) in results.items():
+                    print(f"{exercise}: {passed}/{total}")
+                    total_passed += passed
+                    total_tests += total
+
+                percentage = (total_passed / total_tests) * 100
+
+                if percentage == 100:
+                    level = "Advanced"
+                elif percentage >= 60:
+                    level = "Intermediate"
+                else:
+                    level = "Beginner"
+
+                print(f"\nTOTAL: {total_passed}/{total_tests} ({level})")
+
+                f.write(
+                        f"{student_name},"
+                        f"{results['ajouter'][0]}/{results['ajouter'][1]},"
+                        f"{results['soustraire'][0]}/{results['soustraire'][1]},"
+                        f"{results['multiplier'][0]}/{results['multiplier'][1]},"
+                        f"{results['pair'][0]}/{results['pair'][1]},"
+                        f"{results['carre'][0]}/{results['carre'][1]},"
+                        f"{results['comparer'][0]}/{results['comparer'][1]},"
+                        f"{total_passed}/{total_tests},{level}\n"
+                    )
 
             except Exception:
                 print(f"{student_name}: ERROR")

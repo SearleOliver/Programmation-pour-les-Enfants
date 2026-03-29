@@ -72,7 +72,7 @@ def run_tests():
     test(eval1.comparer, "a > b",  0, -1)
     test(eval1.comparer, "a == b", 0,  0)
 
-    # --- difference_carres : left == right is the lesson ---
+    # --- difference_carres ---
     for a, b in [(5, 3), (4, 7), (6, 6), (0, 4), (-3, 2)]:
         try:
             left  = eval1.difference_carres_gauche(a, b)

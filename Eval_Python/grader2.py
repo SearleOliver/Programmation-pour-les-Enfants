@@ -63,8 +63,6 @@ def run_tests():
     test(eval2.surface_rectangle,100, 10, 10)
 
     # --- square_perimeter ---
-    # Must equal perimetre_rectangle(a, a) — tests reuse.
-    # Uses test_reuse so that None == None cannot pass.
     for a in [1, 3, 5, 7, 10]:
         expected = eval2.perimetre_rectangle(a, a)
         try:
@@ -77,7 +75,6 @@ def run_tests():
         test_reuse(result, expected, f"perimetre_carre({a})")
 
     # --- square_area ---
-    # Must equal surface_rectangle(a, a) — tests reuse.
     for a in [1, 3, 5, 7, 10]:
         expected = eval2.surface_rectangle(a, a)
         try:
