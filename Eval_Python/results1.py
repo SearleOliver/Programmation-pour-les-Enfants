@@ -135,7 +135,7 @@ def main():
 
             except Exception:
                 print(f"{student_name}: ERROR")
-                f.write(f"{student_name},ERROR,ERROR,ERROR\n")
+                f.write(f"{student_name},ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR\n")
 
 
 if __name__ == "__main__":
