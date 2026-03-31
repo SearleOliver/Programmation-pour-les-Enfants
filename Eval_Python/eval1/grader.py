@@ -95,22 +95,12 @@ def run_tests(student):
     test(student.comparer, "a == b", 0,  0)
 
     # --- difference_carres ---
-    for a, b in [(5, 3), (4, 7), (6, 6), (0, 4), (-3, 2)]:
-        try:
-            left  = student.difference_carres_gauche(a, b)
-            right = student.difference_carres_droite(a, b)
-            TOTAL_TESTS += 1
-            if left == right:
-                PASSED_TESTS += 1
-            else:
-                FAILED_DETAILS.append(
-                    f"  ❌ difference_carres({a}, {b}) → gauche={repr(left)}, droite={repr(right)} — l'identité n'est pas vérifiée !"
-                )
-        except Exception as e:
-            TOTAL_TESTS += 1
-            FAILED_DETAILS.append(
-                f"  💥 difference_carres({a}, {b}) → erreur : {e}"
-            )
+    test (student.difference_carres_gauche, -5, 2, 3)
+    test (student.difference_carres_droite, -5, 2, 3)
+    test (student.difference_carres_gauche, 12, -4, 2)
+    test (student.difference_carres_droite, 12, -4, 2)
+    test (student.difference_carres_gauche, 5, -3, -2)
+    test (student.difference_carres_droite, 5, -3, -2)
 
 def show_results(student_name):
     global TOTAL_TESTS,PASSED_TESTS,FAILED_DETAILS

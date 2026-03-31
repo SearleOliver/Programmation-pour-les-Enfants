@@ -71,45 +71,23 @@ def grade_student(student):
         (student.surface_rectangle,100,(10,10)),
     ], "surface_rectangle")
 
-    # --- perimetre_carre (reuse) ---
-    def test_reuse_perimetre_carre(a):
-        try:
-            expected = student.perimetre_rectangle(a, a)
-            result = student.perimetre_carre(a)
-            return result == expected, f"perimetre_carre({a})"
-        except Exception as e:
-            return False, f"💥 perimetre_carre({a}) → erreur : {e}"
-
-    passed = 0
-    total = 5
-    failures = []
-    for a in [1, 3, 5, 7, 10]:
-        ok, msg = test_reuse_perimetre_carre(a)
-        if ok:
-            passed += 1
-        else:
-            failures.append(msg)
-
-    results["perimetre_carre"] = (passed, total, failures)
-
+    # --- perimetre_carre  ---
+    results["perimetre_carre"] = run_tests([
+        (student.perimetre_carre, 16, (4)),
+        (student.perimetre_carre, 24, (6)),
+        (student.perimetre_carre, 8,  (2)),
+        (student.perimetre_carre, 40, (10)),
+        (student.perimetre_carre, 0,  (0)),
+    ], "perimetre_carre")
+    
     # --- surface_carre ---
-    passed = 0
-    total = 5
-    failures = []
-    for a in [1, 3, 5, 7, 10]:
-        try:
-            expected = student.surface_rectangle(a, a)
-            result = student.surface_carre(a)
-            if result == expected:
-                passed += 1
-            else:
-                failures.append(
-                    f"❌ surface_carre({a}) → reçu {result}, attendu {expected}"
-                )
-        except Exception as e:
-            failures.append(f"💥 surface_carre({a}) → erreur : {e}")
-
-    results["surface_carre"] = (passed, total, failures)
+    results["surface_carre"] = run_tests([
+        (student.surface_carre, 32, (4)),
+        (student.surface_carre, 48, (6)),
+        (student.surface_carre, 50,  (5)),
+        (student.surface_carre, 2,  (1)),
+        (student.surface_carre,200,(10)),
+    ], "surface_carre")
 
     # --- perimetre_triangle ---
     results["perimetre_triangle"] = run_tests([
@@ -192,8 +170,18 @@ def main():
                     level = "Beginner"
 
                 print(f"\nTOTAL: {total_passed}/{total_tests} ({level})\n")
-
-                f.write("Name,perimetre_rectangle,surface_rectangle,perimetre_carre,surface_carre,perimetre_triangle,equilateral,comparer_surfaces,polynomial,Total,Level\n")
+                f.write(
+                        f"{student_name},"
+                        f"{results['perimetre_rectangle'][0]}/{results['perimetre_rectangle'][1]},"
+                        f"{results['surface_rectangle'][0]}/{results['surface_rectangle'][1]},"
+                        f"{results['perimetre_carre'][0]}/{results['perimetre_carre'][1]},"
+                        f"{results['surface_carre'][0]}/{results['surface_carre'][1]},"
+                        f"{results['perimetre_triangle'][0]}/{results['perimetre_triangle'][1]},"
+                        f"{results['equilateral'][0]}/{results['equilateral'][1]},"
+                        f"{results['comparer_surfaces'][0]}/{results['comparer_surfaces'][1]},"
+                        f"{results['polynomial'][0]}/{results['polynomial'][1]},"
+                        f"{total_passed}/{total_tests},{level}\n"
+                    )
 
             except Exception:
                 print(f"{student_name}: ERROR")

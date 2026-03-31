@@ -57,7 +57,7 @@ def run_tests(student):
     test(student.somme_paire_a, 1,  2)   # 1..2 : juste 2
     test(student.somme_paire_a, 2,  5)   # 1..5 : 2 et 4
     test(student.somme_paire_a, 3,  6)   # 1..6 : 2, 4, 6
-    test(evastudentl3.somme_paire_a, 5, 10)   # 1..10 : 2,4,6,8,10
+    test(student.somme_paire_a, 5, 10)   # 1..10 : 2,4,6,8,10
 
     # --- somme_liste ---
     test(student.somme_liste,  0, [])
@@ -135,7 +135,7 @@ if __name__ == "__main__":
             input("\nAppuyez sur Entrée pour quitter...")
         else:
             results = run_tests(student)
-            show_results(results)
+            show_results()
     except Exception:
         print("Crash du programme.")
         traceback.print_exc()

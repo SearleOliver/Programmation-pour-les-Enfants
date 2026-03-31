@@ -1,8 +1,5 @@
 import importlib.util
 import traceback
-
-import importlib.util
-import traceback
 import os
 
 def load_student_file():

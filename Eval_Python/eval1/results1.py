@@ -7,7 +7,6 @@ def load_student(file_name):
     spec.loader.exec_module(module)
     return module
 
-
 def grade_student(student):
     def run_tests(tests):
         passed = 0
@@ -79,6 +78,15 @@ def grade_student(student):
         (student.comparer, "a > b", (0, -1)),
         (student.comparer, "a == b", (0, 0)),
     ])
+    
+    results["difference_carre"] = run_tests([
+        (student.difference_carres_gauche, -5, 2, 3)
+        (student.difference_carres_droite, -5, 2, 3)
+        (student.difference_carres_gauche, 12, -4, 2)
+        (student.difference_carres_droite, 12, -4, 2)
+        (student.difference_carres_gauche, 5, -3, -2)
+        (student.difference_carres_droite, 5, -3, -2)
+    ])
 
     return results
 
@@ -91,7 +99,7 @@ def main():
         return
 
     with open("results_eval1.csv", "w") as f:
-        f.write("Name,ajouter,soustraire,multiplier,pair,carre,comparer,Total,Level\n")
+        f.write("Name,ajouter,soustraire,multiplier,pair,carre,comparer,difference_carre,Total,Level\n")
 
         for file in files:
             student_name = file.replace("eval1_", "").replace(".py", "")
@@ -130,12 +138,13 @@ def main():
                         f"{results['pair'][0]}/{results['pair'][1]},"
                         f"{results['carre'][0]}/{results['carre'][1]},"
                         f"{results['comparer'][0]}/{results['comparer'][1]},"
+                        f"{results['difference_carre'][0]}/{results['difference_carre'][1]},"
                         f"{total_passed}/{total_tests},{level}\n"
                     )
 
             except Exception:
                 print(f"{student_name}: ERROR")
-                f.write(f"{student_name},ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR\n")
+                f.write(f"{student_name},ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR\n")
 
 
 if __name__ == "__main__":

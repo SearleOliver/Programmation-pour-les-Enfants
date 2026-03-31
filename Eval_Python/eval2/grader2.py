@@ -156,7 +156,7 @@ if __name__ == "__main__":
             input("\nAppuyez sur Entrée pour quitter...")
         else:
             results = run_tests(student)
-            show_results
+            show_results()
     except Exception:
         print("Crash du programme.")
         traceback.print_exc()
