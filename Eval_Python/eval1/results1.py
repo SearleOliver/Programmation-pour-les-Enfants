@@ -80,12 +80,12 @@ def grade_student(student):
     ])
     
     results["difference_carre"] = run_tests([
-        (student.difference_carres_gauche, -5, 2, 3)
-        (student.difference_carres_droite, -5, 2, 3)
-        (student.difference_carres_gauche, 12, -4, 2)
-        (student.difference_carres_droite, 12, -4, 2)
-        (student.difference_carres_gauche, 5, -3, -2)
-        (student.difference_carres_droite, 5, -3, -2)
+    (student.difference_carres_gauche, -5, (2, 3)),
+    (student.difference_carres_droite, -5, (2, 3)),
+    (student.difference_carres_gauche, 12, (-4, 2)),
+    (student.difference_carres_droite, 12, (-4, 2)),
+    (student.difference_carres_gauche, 5, (-3, -2)),
+    (student.difference_carres_droite, 5, (-3, -2)),
     ])
 
     return results
@@ -141,9 +141,8 @@ def main():
                         f"{results['difference_carre'][0]}/{results['difference_carre'][1]},"
                         f"{total_passed}/{total_tests},{level}\n"
                     )
-
-            except Exception:
-                print(f"{student_name}: ERROR")
+            except Exception as e:
+                print(f"{student_name}: ERROR → {e}")
                 f.write(f"{student_name},ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR\n")
 
 
