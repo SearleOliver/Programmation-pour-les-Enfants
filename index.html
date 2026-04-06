@@ -4,49 +4,73 @@
     <meta charset="UTF-8">
     <title>Python Course</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <header>
-    <h1>🐍 Python pour les élèves</h1>
-    <p>Apprendre • Pratiquer • Réussir</p>
+    <div class="header-inner">
+        <div class="header-text">
+            <h1>🐍 Python pour les élèves</h1>
+            <p>Apprendre • Pratiquer • Réussir</p>
+        </div>
+    </div>
 </header>
 
 <div class="container">
+    <div class="section-label">📚 Modules du cours</div>
 
-    <h2>📚 Modules</h2>
+    <!-- Featured module (Module 1 spans full width) -->
+    <div class="modules-grid">
+        <a class="card card--featured" href="modules/module1_bases/index.html">
+            <div class="card-number">01</div>
+            <div class="card-body">
+                <div class="card-icon">🔤</div>
+                <h3>Les Bases</h3>
+                <p>Découvre les fondamentaux de Python : syntaxe, print(), et premiers programmes.</p>
+            </div>
+            <span class="card-cta">Voir le module →</span>
+        </a>
 
-    <div class="card">
-        <h3>🔤 Module 1 – Bases</h3>
-        <p>Découvre les bases du Python.</p>
-        <a class="button" href="modules/module1_bases/index.html">Voir le module</a>
+        <a class="card card--secondary" href="modules/module2_variables/index.html">
+            <div class="card-number">02</div>
+            <div class="card-body">
+                <div class="card-icon">🔁</div>
+                <h3>Variables</h3>
+                <p>Apprends à stocker et manipuler des données avec les variables.</p>
+            </div>
+            <span class="card-cta">Voir le module →</span>
+        </a>
+
+        <a class="card card--secondary" href="modules/module3_fonctions/index.html">
+            <div class="card-number">03</div>
+            <div class="card-body">
+                <div class="card-icon">⚙️</div>
+                <h3>Fonctions</h3>
+                <p>Construis tes propres fonctions réutilisables et organise ton code.</p>
+            </div>
+            <span class="card-cta">Voir le module →</span>
+        </a>
+
+        <a class="card card--secondary" href="modules/module4_boucles/index.html">
+            <div class="card-number">04</div>
+            <div class="card-body">
+                <div class="card-icon">🔄</div>
+                <h3>Boucles</h3>
+                <p>Maîtrise les boucles <code>for</code> et <code>while</code> pour répéter des actions.</p>
+            </div>
+            <span class="card-cta">Voir le module →</span>
+        </a>
+
+        <a class="card card--wide" href="modules/module5_Listes_et_Dictionnaires/index.html">
+            <div class="card-number">05</div>
+            <div class="card-body">
+                <div class="card-icon">📦</div>
+                <h3>Listes &amp; Dictionnaires</h3>
+                <p>Découvre les structures de données essentielles pour organiser l'information.</p>
+            </div>
+            <span class="card-cta">Voir le module →</span>
+        </a>
     </div>
-
-    <div class="card">
-        <h3>🔁 Module 2 – Variables</h3>
-        <p>Apprends les variables.</p>
-        <a class="button" href="modules/module2_variables/index.html">Voir le module</a>
-    </div>
-
-    <div class="card">
-        <h3>🔤 Module 3 – Fonctions</h3>
-        <p>Construit tes propres fonctions.</p>
-        <a class="button" href="modules/module3_fonctions/index.html">Voir le module</a>
-    </div>
-
-    <div class="card">
-        <h3>🔤 Module 4 – Boucles</h3>
-        <p>Utilise les boucles for et while.</p>
-        <a class="button" href="modules/module4_boucles/index.html">Voir le module</a>
-    </div>
-
-    <div class="card">
-        <h3>🔤 Module 5 – Listes et Dictionnaires</h3>
-        <p>Découvre les structures de données.</p>
-        <a class="button" href="modules/module5_Listes_et_Dictionnaires/index.html">Voir le module</a>
-    </div>
-
 </div>
-
 </body>
 </html>
