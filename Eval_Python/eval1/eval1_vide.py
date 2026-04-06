@@ -2,6 +2,7 @@
 ## =========================================================
 ## Dans cette évaluation on va tester votre capacité à créer des fonctions simples.
 ## Vous trouverez dans ce fichier des fonctions dites squelettes à compléter.
+## Enregistrez votre travail en nommant le fichier comme ceci : eval1_Prenom.py
 ## Pour évaluer votre travail lancez ./grader.exe
 ## Pour cela remplissez les corps de fonction.
 
