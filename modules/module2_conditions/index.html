@@ -96,7 +96,7 @@
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const PDF_URL  = 'Slides-Module2-Conditions.pdf';
-    const canvas   = document.getElementById('pdf-canvas');
+    const canvas = document.querySelector('.slide-canvas');
     const ctx      = canvas.getContext('2d');
     const loader   = document.getElementById('slide-loader');
     const dotsWrap = document.getElementById('slide-dots');

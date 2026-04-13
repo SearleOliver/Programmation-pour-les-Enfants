@@ -18,7 +18,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
 body {
@@ -26,6 +25,7 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* ── Header ─────────────────────────── */
@@ -222,6 +222,8 @@ header p {
     width: 100%;
     padding-bottom: 56.25%;
     background: #0a0c12;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .slide-canvas {
@@ -230,6 +232,7 @@ header p {
     width: 100% !important;
     height: 100% !important;
     display: block;
+    max-width: 100%;
 }
 
 .slide-loader {
@@ -348,12 +351,18 @@ header p {
     color: rgba(122,127,153,0.55);
 }
 
+canvas, img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* ── Legacy classes (keep for module pages) ── */
 .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }
 .sidebar h2 { font-size: 18px; margin-bottom: 20px; }
 .sidebar a { display: block; color: white; text-decoration: none; margin: 10px 0; padding: 8px; border-radius: 5px; }
 .sidebar a:hover { background: #34495e; }
-.main { margin-left: 270px; padding: 30px; width: 100%;overflow: hidden; }
+.main { margin-left: 250px; padding: 30px; width: calc(100% - 250px);}
 .button { display: inline-block; padding: 10px 15px; background: #3498db; color: white; border-radius: 6px; text-decoration: none; margin-top: 10px; }
 .button:hover { background: #2980b9; }
 .tag { display: inline-block; padding: 5px 10px; border-radius: 6px; font-size: 12px; margin-right: 5px; }
