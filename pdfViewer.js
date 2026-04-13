@@ -1,3 +1,6 @@
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  
 function initPDFViewer(containerId, pdfUrl) {
     const container = document.getElementById(containerId);
 
@@ -49,7 +52,10 @@ function initPDFViewer(containerId, pdfUrl) {
     });
 
     pdfjsLib.getDocument(pdfUrl).promise.then(doc => {
+        console.log("PDF loaded:", pdfUrl);
         pdfDoc = doc;
         renderPage(1);
+    }).catch(err => {
+        console.error("PDF ERROR:", err);
     });
 }
