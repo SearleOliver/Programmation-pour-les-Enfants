@@ -42,28 +42,35 @@
         <p>🎯 Objectif : Comprendre les bases du language de programmation Python.</p>
     </div>
 
+    <!-- ── SLIDE VIEWER ─────────────────────────────────────────── -->
     <div class="card">
         <h2>📘 Cours</h2>
-        <p>Lis le cours pour comprendre les concepts.</p>
-        <iframe 
-            src="Slides-Module1-Variables.pdf#page=1&zoom=page-fit&toolbar=0" 
-            width="800px" 
-            height="600px">
-        </iframe>
-        <button onclick="changePage(-1)">⬅️</button>
-        <button onclick="changePage(1)">➡️</button>
+        <p>Navigue entre les slides avec les flèches ou le clavier.</p>
 
-        <script>
-        let page = 1;
+        <div class="slide-viewer">
+            <div class="slide-canvas-wrap">
+                <canvas id="pdf-canvas"></canvas>
+                <div class="slide-loader" id="slide-loader">
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
+                </div>
+            </div>
 
-        function changePage(step) {
-            page += step;
-            document.getElementById("pdf").src = 
-                "Slides-Module1-Variables.pdf#page=" + page + "&zoom=page-fit&toolbar=0";
-        }
-        </script>
-        <a class="button" href="Slides_Python_Basthon.pdf" target="_blank">Ouvrir le PDF</a>
-        <a class="button" href="Slides-Indentattion.pdf" target="_blank">Ouvrir le PDF</a>
+            <div class="slide-controls">
+                <button class="slide-btn" id="btn-prev" disabled>&#8592; Préc.</button>
+
+                <div class="slide-mid">
+                    <div class="slide-dots" id="slide-dots"></div>
+                    <div class="slide-counter" id="slide-counter">— / —</div>
+                </div>
+
+                <button class="slide-btn" id="btn-next" disabled>Suiv. &#8594;</button>
+            </div>
+        </div>
+
+        <p class="slide-hint">← → touches clavier · clic sur les points pour sauter à une slide</p>
+        <a class="button" href="Slides-Module1-Variables.pdf" target="_blank" style="margin-top:12px;">⬇ Ouvrir le PDF complet</a>
     </div>
 
     <div class="card">
