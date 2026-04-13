@@ -47,26 +47,31 @@
         <h2>📘 Cours</h2>
         <p>Navigue entre les slides avec les flèches ou le clavier.</p>
 
-        <div class="slide-viewer">
-            <div class="slide-canvas-wrap">
-                <canvas class="slide-canvas"></canvas>
-                <div class="slide-loader" id="slide-loader">
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                </div>
+        <div class="slide-viewer" id="viewer1">
+    
+        <div class="slide-canvas-wrap">
+            <canvas class="slide-canvas"></canvas>
+
+            <div class="slide-loader">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+        </div>
+
+        <div class="slide-controls">
+            <button class="slide-btn btn-prev" disabled>
+                &#8592; Préc.
+            </button>
+
+            <div class="slide-mid">
+                <div class="slide-dots"></div>
+                <div class="slide-counter">— / —</div>
             </div>
 
-            <div class="slide-controls">
-                <button class="slide-btn" id="btn-prev" disabled>&#8592; Préc.</button>
-
-                <div class="slide-mid">
-                    <div class="slide-dots" id="slide-dots"></div>
-                    <div class="slide-counter" id="slide-counter">— / —</div>
-                </div>
-
-                <button class="slide-btn" id="btn-next" disabled>Suiv. &#8594;</button>
-            </div>
+            <button class="slide-btn btn-next" disabled>
+                Suiv. &#8594;
+            </button>
         </div>
 
         <p class="slide-hint">← → touches clavier · clic sur les points pour sauter à une slide</p>
@@ -93,102 +98,10 @@
 
 </div>
 
-<!-- PDF.js via CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="../../pdfViewer.js"></script>
 <script>
-(function () {
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+initPDFViewer("viewer1", "Slides-Chaines.pdf");
 
-    const PDF_URL  = 'Slides-Module2-Conditions.pdf';
-    const canvas = document.querySelector('.slide-canvas');
-    const ctx      = canvas.getContext('2d');
-    const loader   = document.getElementById('slide-loader');
-    const dotsWrap = document.getElementById('slide-dots');
-    const counter  = document.getElementById('slide-counter');
-    const btnPrev  = document.getElementById('btn-prev');
-    const btnNext  = document.getElementById('btn-next');
-
-    let pdfDoc    = null;
-    let current   = 1;
-    let rendering = false;
-    let renderTask = null;
-
-    function renderPage(num) {
-        if (rendering) return;
-        rendering = true;
-        loader.classList.remove('hidden');
-
-        pdfDoc.getPage(num).then(page => {
-            const wrap  = canvas.parentElement;
-            const dpr   = window.devicePixelRatio || 1;
-            const scale = (wrap.clientWidth / page.getViewport({ scale: 1 }).width) * dpr;
-            const vp    = page.getViewport({ scale });
-
-            canvas.width  = vp.width;
-            canvas.height = vp.height;
-
-            if (renderTask) { renderTask.cancel(); }
-            renderTask = page.render({ canvasContext: ctx, viewport: vp });
-            renderTask.promise.then(() => {
-                rendering  = false;
-                renderTask = null;
-                loader.classList.add('hidden');
-                updateUI();
-            }).catch(() => { rendering = false; });
-        });
-    }
-
-    function updateUI() {
-        const total = pdfDoc.numPages;
-        counter.textContent = `${current} / ${total}`;
-        btnPrev.disabled = current <= 1;
-        btnNext.disabled = current >= total;
-        dotsWrap.querySelectorAll('.slide-dot').forEach((d, i) =>
-            d.classList.toggle('active', i + 1 === current));
-    }
-
-    function goTo(num) {
-        if (!pdfDoc || num < 1 || num > pdfDoc.numPages || num === current) return;
-        current = num;
-        renderPage(current);
-    }
-
-    btnPrev.addEventListener('click', () => goTo(current - 1));
-    btnNext.addEventListener('click', () => goTo(current + 1));
-
-    document.addEventListener('keydown', e => {
-        if (['ArrowRight','ArrowDown'].includes(e.key)) goTo(current + 1);
-        if (['ArrowLeft', 'ArrowUp'  ].includes(e.key)) goTo(current - 1);
-    });
-
-    pdfjsLib.getDocument(PDF_URL).promise.then(doc => {
-        pdfDoc = doc;
-        const total = doc.numPages;
-
-        for (let i = 1; i <= total; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'slide-dot';
-            dot.title = `Slide ${i}`;
-            dot.addEventListener('click', () => goTo(i));
-            dotsWrap.appendChild(dot);
-        }
-
-        btnPrev.disabled = false;
-        btnNext.disabled = false;
-        renderPage(1);
-    }).catch(() => {
-        loader.innerHTML =
-            '<p style="color:#ff9cac;font-family:monospace;font-size:.8rem;padding:16px;text-align:center">' +
-            'PDF introuvable.<br>Vérifie que le fichier est dans le même dossier que cette page.</p>';
-    });
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => { if (pdfDoc) renderPage(current); }, 150);
-    });
-})();
 </script>
 </body>
 </html>
