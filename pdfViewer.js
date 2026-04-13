@@ -76,13 +76,13 @@ function initPDFViewer(containerId, pdfUrl) {
     btnNext.addEventListener('click', () => goTo(current + 1));
 
     // ── Keyboard arrows (only when this viewer is in the viewport) ─
-    document.addEventListener('keydown', e => {
-        const rect = container.getBoundingClientRect();
-        const visible = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!visible) return;
-        if (['ArrowRight', 'ArrowDown'].includes(e.key)) goTo(current + 1);
-        if (['ArrowLeft',  'ArrowUp'  ].includes(e.key)) goTo(current - 1);
-    });
+    //document.addEventListener('keydown', e => {
+    //    const rect = container.getBoundingClientRect();
+    //    const visible = rect.top < window.innerHeight && rect.bottom > 0;
+    //    if (!visible) return;
+    //    if (['ArrowRight', 'ArrowDown'].includes(e.key)) goTo(current + 1);
+    //    if (['ArrowLeft',  'ArrowUp'  ].includes(e.key)) goTo(current - 1);
+    //});
 
     // ── Re-render on window resize (debounced) ───────────────────
     let resizeTimer;
