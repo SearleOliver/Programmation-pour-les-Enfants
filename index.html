@@ -2,95 +2,311 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Python Course</title>
+    <title>Cours de Programmation</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ── Course Switcher ─────────────────────────────────── */
+        .course-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            width: fit-content;
+            margin: 0 auto 36px;
+        }
+
+        .course-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+
+        .course-tab .tab-emoji { font-size: 1.1rem; line-height: 1; }
+
+        .course-tab:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .course-tab.active { color: var(--text); font-weight: 700; }
+
+        .course-tab.active.python {
+            background: rgba(74, 222, 128, 0.12);
+            color: #4ade80;
+            box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.25);
+        }
+
+        .course-tab.active.scratch {
+            background: rgba(255, 165, 0, 0.12);
+            color: #ffb347;
+            box-shadow: 0 0 0 1px rgba(255, 165, 0, 0.25);
+        }
+
+        .tab-divider {
+            width: 1px;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* ── Course panels ───────────────────────────────────── */
+        .course-panel { display: none; }
+        .course-panel.active {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scratch accent overrides */
+        .scratch-panel .section-label { color: #ffb347; }
+        .scratch-panel .card-number   { color: #ffb347; }
+        .scratch-panel .card-cta      { color: #ffb347; }
+        .scratch-panel .card:hover    { border-color: rgba(255,179,71,0.35); }
+        .scratch-panel .card::before  {
+            background: radial-gradient(circle at top left, rgba(255,165,0,0.1), transparent 70%);
+        }
+        .scratch-panel .card-body code {
+            background: rgba(255,165,0,0.15);
+            color: #ffb347;
+        }
+    </style>
 </head>
 <body>
+
 <header>
     <div class="header-inner">
         <div class="header-text">
-            <h1>🐍 Python pour les élèves</h1>
-            <p>Apprendre • Pratiquer • Réussir</p>
+            <h1 id="header-title">🐍 Python pour les élèves</h1>
+            <p id="header-sub">Apprendre • Pratiquer • Réussir</p>
         </div>
     </div>
 </header>
 
 <div class="container">
-    <div class="section-label">📚 Modules du cours</div>
 
-    <!-- Featured module (Module 1 spans full width) -->
-    <div class="modules-grid">
-        <a class="card card--featured" href="modules/module1_bases/index.html">
-            <div class="card-number">01</div>
-            <div class="card-body">
-                <div class="card-icon">🔤</div>
-                <h3>Les Bases</h3>
-                <p>Découvre les fondamentaux de Python : syntaxe, print(), et premiers programmes.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--secondary" href="modules/module2_conditions/index.html">
-            <div class="card-number">02</div>
-            <div class="card-body">
-                <div class="card-icon">🔁</div>
-                <h3>Variables</h3>
-                <p>Apprends à stocker et manipuler des données avec les variables.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--secondary" href="modules/module3_fonctions/index.html">
-            <div class="card-number">03</div>
-            <div class="card-body">
-                <div class="card-icon">⚙️</div>
-                <h3>Fonctions</h3>
-                <p>Construis tes propres fonctions réutilisables et organise ton code.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--secondary" href="modules/module4_boucles/index.html">
-            <div class="card-number">04</div>
-            <div class="card-body">
-                <div class="card-icon">🔄</div>
-                <h3>Boucles</h3>
-                <p>Maîtrise les boucles <code>for</code> et <code>while</code> pour répéter des actions.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--secondary" href="modules/module5_listes_et_chaines/index.html">
-            <div class="card-number">05</div>
-            <div class="card-body">
-                <div class="card-icon">📦</div>
-                <h3>Listes et Chaines de charactères.</h3>
-                <p>Découvre les structures de données essentielles pour organiser l'information.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--secondary" href="modules/module6_dictionnaires/index.html">
-            <div class="card-number">06</div>
-            <div class="card-body">
-                <div class="card-icon">📚</div>
-                <h3>Dictionnaires</h3>
-                <p>Apprends des structures encore plus utiles.</p>
-            </div>
-            <span class="card-cta">Voir le module →</span>
-        </a>
-
-        <a class="card card--featured" href="Projets/index.html">
-            <div class="card-number">07</div>
-            <div class="card-body">
-                <div class="card-icon">🚧</div>
-                <h3>Projets</h3>
-                <p>Mets en pratique tes connaissnces !</p>
-            </div>
-            <span class="card-cta">Voir les projets →</span>
-        </a>
+    <!-- ── Switcher ───────────────────────────────────────────── -->
+    <div class="course-switcher">
+        <button class="course-tab python active" onclick="switchCourse('python')">
+            <span class="tab-emoji">🐍</span> Python
+        </button>
+        <div class="tab-divider"></div>
+        <button class="course-tab scratch" onclick="switchCourse('scratch')">
+            <span class="tab-emoji">🐱</span> Scratch
+        </button>
     </div>
-</div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PYTHON
+    ═══════════════════════════════════════════════════════ -->
+    <div class="course-panel python-panel active" id="panel-python">
+        <div class="section-label">📚 Modules du cours</div>
+        <div class="modules-grid">
+
+            <a class="card card--featured" href="modules/module1_bases/index.html">
+                <div class="card-number">01</div>
+                <div class="card-body">
+                    <div class="card-icon">🔤</div>
+                    <h3>Variables &amp; Types</h3>
+                    <p>int, float, str, bool — stocke et manipule tes premières données.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="modules/module2_conditions/index.html">
+                <div class="card-number">02</div>
+                <div class="card-body">
+                    <div class="card-icon">🔀</div>
+                    <h3>Conditions</h3>
+                    <p>Prends des décisions avec <code>if</code>, <code>elif</code>, <code>else</code>.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="modules/module3_fonctions/index.html">
+                <div class="card-number">03</div>
+                <div class="card-body">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Fonctions</h3>
+                    <p>Construis tes propres fonctions réutilisables et organise ton code.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="modules/module4_boucles/index.html">
+                <div class="card-number">04</div>
+                <div class="card-body">
+                    <div class="card-icon">🔄</div>
+                    <h3>Boucles</h3>
+                    <p>Maîtrise les boucles <code>for</code> et <code>while</code> pour répéter des actions.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="modules/module5_listes_et_chaines/index.html">
+                <div class="card-number">05</div>
+                <div class="card-body">
+                    <div class="card-icon">📦</div>
+                    <h3>Listes &amp; Chaînes</h3>
+                    <p>Découvre les structures de données essentielles pour organiser l'information.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="modules/module6_dictionnaires/index.html">
+                <div class="card-number">06</div>
+                <div class="card-body">
+                    <div class="card-icon">📚</div>
+                    <h3>Dictionnaires</h3>
+                    <p>Apprends des structures encore plus puissantes pour organiser tes données.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--featured" href="Projets/index.html">
+                <div class="card-number">07</div>
+                <div class="card-body">
+                    <div class="card-icon">🚧</div>
+                    <h3>Projets</h3>
+                    <p>Mets en pratique toutes tes connaissances sur des projets concrets !</p>
+                </div>
+                <span class="card-cta">Voir les projets →</span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SCRATCH
+    ═══════════════════════════════════════════════════════ -->
+    <div class="course-panel scratch-panel" id="panel-scratch">
+        <div class="section-label">🎨 Modules du cours</div>
+        <div class="modules-grid">
+
+            <a class="card card--featured" href="scratch/module1_interface/index.html">
+                <div class="card-number">01</div>
+                <div class="card-body">
+                    <div class="card-icon">🖥️</div>
+                    <h3>Découvrir Scratch</h3>
+                    <p>Explore l'interface, les lutins, la scène et tes premiers blocs.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="scratch/module2_mouvement/index.html">
+                <div class="card-number">02</div>
+                <div class="card-body">
+                    <div class="card-icon">🕹️</div>
+                    <h3>Mouvement &amp; Animation</h3>
+                    <p>Fais bouger tes lutins, change leurs costumes et crée des animations.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="scratch/module3_evenements/index.html">
+                <div class="card-number">03</div>
+                <div class="card-body">
+                    <div class="card-icon">🎯</div>
+                    <h3>Évènements</h3>
+                    <p>Réagis aux clics, aux touches et aux messages entre lutins.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="scratch/module4_boucles/index.html">
+                <div class="card-number">04</div>
+                <div class="card-body">
+                    <div class="card-icon">🔁</div>
+                    <h3>Boucles &amp; Conditions</h3>
+                    <p>Répète des actions et prends des décisions avec les blocs de contrôle.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="scratch/module5_variables/index.html">
+                <div class="card-number">05</div>
+                <div class="card-body">
+                    <div class="card-icon">📊</div>
+                    <h3>Variables &amp; Score</h3>
+                    <p>Stocke des données, crée un score, un minuteur ou un compteur de vies.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--secondary" href="scratch/module6_son/index.html">
+                <div class="card-number">06</div>
+                <div class="card-body">
+                    <div class="card-icon">🎵</div>
+                    <h3>Sons &amp; Musique</h3>
+                    <p>Ajoute des sons, joue des notes et crée une ambiance sonore.</p>
+                </div>
+                <span class="card-cta">Voir le module →</span>
+            </a>
+
+            <a class="card card--featured" href="scratch/projets/index.html">
+                <div class="card-number">07</div>
+                <div class="card-body">
+                    <div class="card-icon">🎮</div>
+                    <h3>Projets Scratch</h3>
+                    <p>Crée ton propre jeu, animation ou histoire interactive !</p>
+                </div>
+                <span class="card-cta">Voir les projets →</span>
+            </a>
+
+        </div>
+    </div>
+
+</div><!-- /container -->
+
+<script>
+    var HEADERS = {
+        python:  { title: '🐍 Python pour les élèves',  sub: 'Apprendre • Pratiquer • Réussir' },
+        scratch: { title: '🐱 Scratch pour les élèves', sub: 'Créer • Animer • Jouer' }
+    };
+
+    function switchCourse(course) {
+        // Panels
+        document.querySelectorAll('.course-panel').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        document.getElementById('panel-' + course).classList.add('active');
+
+        // Tabs
+        document.querySelectorAll('.course-tab').forEach(function(t) {
+            t.classList.remove('active');
+        });
+        document.querySelector('.course-tab.' + course).classList.add('active');
+
+        // Header
+        document.getElementById('header-title').textContent = HEADERS[course].title;
+        document.getElementById('header-sub').textContent   = HEADERS[course].sub;
+
+        // Remember choice
+        try { localStorage.setItem('selectedCourse', course); } catch(e) {}
+    }
+
+    // Restore on load
+    try {
+        var saved = localStorage.getItem('selectedCourse');
+        if (saved && saved !== 'python') switchCourse(saved);
+    } catch(e) {}
+</script>
+
 </body>
 </html>
