@@ -86,6 +86,39 @@
             background: rgba(255,165,0,0.15);
             color: #ffb347;
         }
+
+        .tp-selector { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+
+        .tp-btn {
+            display:flex; align-items:center; gap:6px;
+            padding:8px 16px;
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.10);
+            border-radius:8px;
+            color:#7a7f99;
+            font-family:'Space Mono', monospace;
+            font-size:0.72rem;
+            cursor:pointer;
+        }
+
+        .tp-btn.active { color:#ffb347; border-color:rgba(255,179,71,0.45); }
+
+        .tp-num {
+            width:20px; height:20px;
+            display:flex; align-items:center; justify-content:center;
+            border-radius:50%;
+            background:rgba(255,179,71,0.2);
+            font-size:0.65rem;
+        }
+
+        .tp-meta {
+            display:flex;
+            justify-content:space-between;
+            padding:10px;
+            background:rgba(255,179,71,0.06);
+            border-radius:8px;
+            margin-bottom:10px;
+        }
     </style>
 </head>
 <body>
@@ -196,116 +229,161 @@
          SCRATCH
     ═══════════════════════════════════════════════════════ -->
     <div class="course-panel scratch-panel" id="panel-scratch">
-        <div class="section-label">🎨 Modules du cours</div>
-        <div class="modules-grid">
+        <h1 style="margin-bottom:10px;">🐱 Scratch – Découvrir la Programmation</h1>
 
-            <a class="card card--featured" href="scratch/module1_interface/index.html">
-                <div class="card-number">01</div>
-                <div class="card-body">
-                    <div class="card-icon">🖥️</div>
-                    <h3>Découvrir Scratch</h3>
-                    <p>Explore l'interface, les lutins, la scène et tes premiers blocs.</p>
+        <!-- Info -->
+        <div class="card" style="cursor:default;">
+            <h3>📊 Informations</h3>
+            <span class="tag easy">Débutant</span>
+            <p>📌 Prérequis : Aucun — juste une envie de créer !</p>
+            <p>🎯 Objectif : Coordonnées, sprites, mouvement, variables et premier mini-jeu.</p>
+        </div>
+
+        <!-- SLIDES -->
+        <div class="card" style="cursor:default;">
+            <h2>📘 Cours – Présentation Scratch</h2>
+
+            <div class="slide-viewer" id="viewer-slides">
+                <div class="slide-canvas-wrap">
+                    <canvas class="slide-canvas"></canvas>
+                    <div class="slide-loader">
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                    </div>
                 </div>
-                <span class="card-cta">Voir le module →</span>
-            </a>
-
-            <a class="card card--secondary" href="scratch/module2_mouvement/index.html">
-                <div class="card-number">02</div>
-                <div class="card-body">
-                    <div class="card-icon">🕹️</div>
-                    <h3>Mouvement &amp; Animation</h3>
-                    <p>Fais bouger tes lutins, change leurs costumes et crée des animations.</p>
+                <div class="slide-controls">
+                    <button class="slide-btn btn-prev" disabled>&#8592; Préc.</button>
+                    <div class="slide-mid">
+                        <div class="slide-dots"></div>
+                        <div class="slide-counter">— / —</div>
+                    </div>
+                    <button class="slide-btn btn-next" disabled>Suiv. &#8594;</button>
                 </div>
-                <span class="card-cta">Voir le module →</span>
-            </a>
+            </div>
 
-            <a class="card card--secondary" href="scratch/module3_evenements/index.html">
-                <div class="card-number">03</div>
-                <div class="card-body">
-                    <div class="card-icon">🎯</div>
-                    <h3>Évènements</h3>
-                    <p>Réagis aux clics, aux touches et aux messages entre lutins.</p>
+            <a class="button" href="scratch/Slides-Scratch.pdf" target="_blank">
+                ⬇ Ouvrir le PDF complet
+            </a>
+        </div>
+
+        <!-- TP -->
+        <div class="card" style="cursor:default;">
+            <h2>🧪 Travaux Pratiques</h2>
+
+            <!-- TP selector -->
+            <div class="tp-selector">
+                <button class="tp-btn active" onclick="selectTP(1)"><span class="tp-num">1</span> Ball Rebell</button>
+                <button class="tp-btn" onclick="selectTP(2)"><span class="tp-num">2</span> TP 2</button>
+                <button class="tp-btn" onclick="selectTP(3)"><span class="tp-num">3</span> TP 3</button>
+                <button class="tp-btn" onclick="selectTP(4)"><span class="tp-num">4</span> TP 4</button>
+                <button class="tp-btn" onclick="selectTP(5)"><span class="tp-num">5</span> TP 5</button>
+                <button class="tp-btn" onclick="selectTP(6)"><span class="tp-num">6</span> TP 6</button>
+                <button class="tp-btn" onclick="selectTP(7)"><span class="tp-num">7</span> TP 7</button>
+            </div>
+
+            <!-- Meta -->
+            <div class="tp-meta">
+                <span id="tp-meta-title">TP 01 – Ball Rebell</span>
+                <span id="tp-meta-desc">Boucles • Variables • Collisions • Score</span>
+            </div>
+
+            <!-- Viewer -->
+            <div class="slide-viewer" id="viewer-tp">
+                <div class="slide-canvas-wrap">
+                    <canvas class="slide-canvas"></canvas>
+                    <div class="slide-loader">
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                    </div>
                 </div>
-                <span class="card-cta">Voir le module →</span>
-            </a>
-
-            <a class="card card--secondary" href="scratch/module4_boucles/index.html">
-                <div class="card-number">04</div>
-                <div class="card-body">
-                    <div class="card-icon">🔁</div>
-                    <h3>Boucles &amp; Conditions</h3>
-                    <p>Répète des actions et prends des décisions avec les blocs de contrôle.</p>
+                <div class="slide-controls">
+                    <button class="slide-btn btn-prev" disabled>&#8592;</button>
+                    <div class="slide-mid">
+                        <div class="slide-dots"></div>
+                        <div class="slide-counter">— / —</div>
+                    </div>
+                    <button class="slide-btn btn-next" disabled>&#8594;</button>
                 </div>
-                <span class="card-cta">Voir le module →</span>
-            </a>
+            </div>
 
-            <a class="card card--secondary" href="scratch/module5_variables/index.html">
-                <div class="card-number">05</div>
-                <div class="card-body">
-                    <div class="card-icon">📊</div>
-                    <h3>Variables &amp; Score</h3>
-                    <p>Stocke des données, crée un score, un minuteur ou un compteur de vies.</p>
-                </div>
-                <span class="card-cta">Voir le module →</span>
+            <a class="button" id="tp-download" href="scratch/TP01_Scratch.pdf" target="_blank">
+                ⬇ Ouvrir le TP 1
             </a>
-
-            <a class="card card--secondary" href="scratch/module6_son/index.html">
-                <div class="card-number">06</div>
-                <div class="card-body">
-                    <div class="card-icon">🎵</div>
-                    <h3>Sons &amp; Musique</h3>
-                    <p>Ajoute des sons, joue des notes et crée une ambiance sonore.</p>
-                </div>
-                <span class="card-cta">Voir le module →</span>
-            </a>
-
-            <a class="card card--featured" href="scratch/projets/index.html">
-                <div class="card-number">07</div>
-                <div class="card-body">
-                    <div class="card-icon">🎮</div>
-                    <h3>Projets Scratch</h3>
-                    <p>Crée ton propre jeu, animation ou histoire interactive !</p>
-                </div>
-                <span class="card-cta">Voir les projets →</span>
-            </a>
-
         </div>
     </div>
 
 </div><!-- /container -->
 
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="scratch/module1_interface/pdfViewer.js"></script>
+
 <script>
-    var HEADERS = {
-        python:  { title: '🐍 Python pour les élèves',  sub: 'Apprendre • Pratiquer • Réussir' },
-        scratch: { title: '🐱 Scratch pour les élèves', sub: 'Créer • Animer • Jouer' }
-    };
+var HEADERS = {
+    python:  { title: '🐍 Python pour les élèves',  sub: 'Apprendre • Pratiquer • Réussir' },
+    scratch: { title: '🐱 Scratch pour les élèves', sub: 'Créer • Animer • Jouer' }
+};
 
-    function switchCourse(course) {
-        // Panels
-        document.querySelectorAll('.course-panel').forEach(function(p) {
-            p.classList.remove('active');
-        });
-        document.getElementById('panel-' + course).classList.add('active');
+function switchCourse(course) {
+    document.querySelectorAll('.course-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + course).classList.add('active');
 
-        // Tabs
-        document.querySelectorAll('.course-tab').forEach(function(t) {
-            t.classList.remove('active');
-        });
-        document.querySelector('.course-tab.' + course).classList.add('active');
+    document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.course-tab.' + course).classList.add('active');
 
-        // Header
-        document.getElementById('header-title').textContent = HEADERS[course].title;
-        document.getElementById('header-sub').textContent   = HEADERS[course].sub;
+    document.getElementById('header-title').textContent = HEADERS[course].title;
+    document.getElementById('header-sub').textContent   = HEADERS[course].sub;
 
-        // Remember choice
-        try { localStorage.setItem('selectedCourse', course); } catch(e) {}
-    }
+    try { localStorage.setItem('selectedCourse', course); } catch(e) {}
 
-    // Restore on load
-    try {
-        var saved = localStorage.getItem('selectedCourse');
-        if (saved && saved !== 'python') switchCourse(saved);
-    } catch(e) {}
+    if(course === 'scratch'){
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 100);
+}
+}
+
+// Restore tab
+try {
+    var saved = localStorage.getItem('selectedCourse');
+    if (saved && saved !== 'python') switchCourse(saved);
+} catch(e) {}
+
+
+// ── TP system ─────────────────────────
+var TP_DATA = {
+    1:{title:'TP 01 – Ball Rebell',desc:'Boucles • Variables • Collisions • Score',file:'scratch/TP01_Scratch.pdf'},
+    2:{title:'TP 02',desc:'À compléter',file:'scratch/TP02_Scratch.pdf'},
+    3:{title:'TP 03',desc:'À compléter',file:'scratch/TP03_Scratch.pdf'},
+    4:{title:'TP 04',desc:'À compléter',file:'scratch/TP04_Scratch.pdf'},
+    5:{title:'TP 05',desc:'À compléter',file:'scratch/TP05_Scratch.pdf'},
+    6:{title:'TP 06',desc:'À compléter',file:'scratch/TP06_Scratch.pdf'},
+    7:{title:'TP 07',desc:'À compléter',file:'scratch/TP07_Scratch.pdf'}
+};
+
+var currentTP = 1;
+var tpViewer  = null;
+
+function selectTP(num){
+    currentTP = num;
+
+    document.querySelectorAll('.tp-btn').forEach((b,i)=>{
+        b.classList.toggle('active', i+1 === num);
+    });
+
+    document.getElementById('tp-meta-title').textContent = TP_DATA[num].title;
+    document.getElementById('tp-meta-desc').textContent  = TP_DATA[num].desc;
+    document.getElementById('tp-download').href          = TP_DATA[num].file;
+
+    tpViewer.load(TP_DATA[num].file);
+}
+
+
+// ── Init viewers ──────────────────────
+initPDFViewer('viewer-slides','scratch/module1_interface/Slides-Scratch.pdf');
+tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
 </script>
 
 </body>
