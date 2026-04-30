@@ -243,33 +243,23 @@
         <div class="card" style="cursor:default;">
             <h2>📘 Cours – Présentation Scratch</h2>
 
-           <div class="slide-viewer" id="viewer1">
+            <div class="slide-viewer" id="viewer-slides">
                 <div class="slide-canvas-wrap">
                     <canvas class="slide-canvas"></canvas>
-
                     <div class="slide-loader">
                         <div class="loader-dot"></div>
                         <div class="loader-dot"></div>
                         <div class="loader-dot"></div>
                     </div>
                 </div>
-
-
                 <div class="slide-controls">
-                    <button class="slide-btn btn-prev" enabled>
-                        &#8592; Préc.
-                    </button>
-
+                    <button class="slide-btn btn-prev" disabled>&#8592; Préc.</button>
                     <div class="slide-mid">
                         <div class="slide-dots"></div>
                         <div class="slide-counter">— / —</div>
                     </div>
-
-                    <button class="slide-btn btn-next" enabled>
-                        Suiv. &#8594;
-                    </button>
+                    <button class="slide-btn btn-next" disabled>Suiv. &#8594;</button>
                 </div>
-                <p class="slide-hint">clique sur les points pour sauter à une slide</p>
             </div>
 
             <a class="button" href="scratch/Slides-Scratch.pdf" target="_blank">
@@ -395,7 +385,7 @@ function selectTP(num){
 
 
 // ── Init viewers ──────────────────────
-initPDFViewer("viewer1", "scratch/Sliddes-Scratch.pdf");
+initPDFViewer('viewer-slides','scratch/Slides-Scratch.pdf');
 tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
 </script>
 
