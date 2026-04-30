@@ -221,19 +221,15 @@ header p {
 .slide-canvas-wrap {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%;
     background: #0a0c12;
-    max-width: 100%;
     overflow: hidden;
 }
 
 .slide-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
+    position: relative;
     display: block;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
 }
 
 .slide-loader {

@@ -2,66 +2,71 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 function initPDFViewer(containerId, pdfUrl) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+    var container = document.getElementById(containerId);
+    if (!container) {
+        console.error('[PDFViewer] Container not found:', containerId);
+        return { load: function(){} };
+    }
 
-    const canvas   = container.querySelector('.slide-canvas');
-    const ctx      = canvas.getContext('2d');
-    const loader   = container.querySelector('.slide-loader');
-    const dotsWrap = container.querySelector('.slide-dots');
-    const counter  = container.querySelector('.slide-counter');
-    const btnPrev  = container.querySelector('.btn-prev');
-    const btnNext  = container.querySelector('.btn-next');
+    var canvas    = container.querySelector('.slide-canvas');
+    var ctx       = canvas.getContext('2d');
+    var loader    = container.querySelector('.slide-loader');
+    var dotsWrap  = container.querySelector('.slide-dots');
+    var counter   = container.querySelector('.slide-counter');
+    var btnPrev   = container.querySelector('.btn-prev');
+    var btnNext   = container.querySelector('.btn-next');
 
-    let pdfDoc     = null;
-    let current    = 1;
-    let renderTask = null;
+    var pdfDoc     = null;
+    var current    = 1;
+    var renderTask = null;
 
-    // ── Render a page ─────────────────────────────────────────────
+    // ── Render ────────────────────────────────────────────────────
     function renderPage(num) {
         loader.classList.remove('hidden');
+        if (renderTask) { renderTask.cancel(); renderTask = null; }
 
-        // Cancel any render already in flight
-        if (renderTask) {
-            renderTask.cancel();
-            renderTask = null;
-        }
+        pdfDoc.getPage(num).then(function(page) {
+            // Use container width; fall back to 800 if layout not ready
+            var containerWidth = container.clientWidth || 800;
+            var dpr   = window.devicePixelRatio || 1;
 
-        pdfDoc.getPage(num).then(page => {
-            // clientWidth can be 0 before layout settles — fall back to 800
-            const containerWidth = canvas.parentElement.clientWidth || 800;
-            const dpr   = window.devicePixelRatio || 1;
-            const scale = (containerWidth / page.getViewport({ scale: 1 }).width) * dpr;
-            const vp    = page.getViewport({ scale });
+            // Scale to fit width at device pixel ratio
+            var naturalVp = page.getViewport({ scale: 1 });
+            var scale     = (containerWidth / naturalVp.width) * dpr;
+            var vp        = page.getViewport({ scale: scale });
 
+            // Size canvas to actual rendered dimensions
             canvas.width  = vp.width;
             canvas.height = vp.height;
 
+            // CSS: full width, height auto so portrait pages aren't squished
+            canvas.style.width  = '100%';
+            canvas.style.height = 'auto';
+
             renderTask = page.render({ canvasContext: ctx, viewport: vp });
-            renderTask.promise
-                .then(() => {
-                    renderTask = null;
-                    loader.classList.add('hidden');
-                    updateUI();
-                })
-                .catch(() => {
-                    renderTask = null;
-                });
+            renderTask.promise.then(function() {
+                renderTask = null;
+                loader.classList.add('hidden');
+                updateUI();
+            }).catch(function() {
+                renderTask = null;
+            });
+        }).catch(function(e) {
+            console.error('[PDFViewer] getPage failed:', e);
         });
     }
 
-    // ── Sync buttons, counter and dots ────────────────────────────
+    // ── UI ────────────────────────────────────────────────────────
     function updateUI() {
-        const total = pdfDoc.numPages;
+        var total = pdfDoc.numPages;
         counter.textContent = current + ' / ' + total;
-        btnPrev.disabled = current <= 1;
-        btnNext.disabled = current >= total;
-        dotsWrap.querySelectorAll('.slide-dot').forEach(function(dot, i) {
-            dot.classList.toggle('active', i + 1 === current);
+        btnPrev.disabled = (current <= 1);
+        btnNext.disabled = (current >= total);
+        dotsWrap.querySelectorAll('.slide-dot').forEach(function(d, i) {
+            d.classList.toggle('active', i + 1 === current);
         });
     }
 
-    // ── Navigate ──────────────────────────────────────────────────
     function goTo(num) {
         if (!pdfDoc) return;
         if (num < 1 || num > pdfDoc.numPages) return;
@@ -72,7 +77,7 @@ function initPDFViewer(containerId, pdfUrl) {
     btnPrev.addEventListener('click', function() { goTo(current - 1); });
     btnNext.addEventListener('click', function() { goTo(current + 1); });
 
-    // ── Re-render on resize ───────────────────────────────────────
+    // ── Resize ────────────────────────────────────────────────────
     var resizeTimer;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
@@ -81,33 +86,53 @@ function initPDFViewer(containerId, pdfUrl) {
         }, 150);
     });
 
-    // ── Load PDF ──────────────────────────────────────────────────
-    pdfjsLib.getDocument(pdfUrl).promise.then(function(doc) {
-        pdfDoc = doc;
-        var total = doc.numPages;
-
-        // Build dot navigation
+    // ── Load a PDF URL into this viewer ───────────────────────────
+    function loadPDF(url) {
+        // Reset state
+        pdfDoc  = null;
+        current = 1;
         dotsWrap.innerHTML = '';
-        for (var i = 1; i <= total; i++) {
-            (function(pageNum) {
-                var dot = document.createElement('button');
-                dot.className = 'slide-dot';
-                dot.title = 'Slide ' + pageNum;
-                dot.addEventListener('click', function() { goTo(pageNum); });
-                dotsWrap.appendChild(dot);
-            })(i);
-        }
+        counter.textContent = '— / —';
+        btnPrev.disabled = true;
+        btnNext.disabled = true;
+        loader.classList.remove('hidden');
 
-        // Enable buttons (they start disabled in the HTML)
-        btnPrev.disabled = false;
-        btnNext.disabled = false;
+        console.log('[PDFViewer] Loading:', url);
 
-        renderPage(1);
+        pdfjsLib.getDocument(url).promise.then(function(doc) {
+            pdfDoc = doc;
+            var total = doc.numPages;
+            console.log('[PDFViewer] Loaded OK:', url, total, 'pages');
 
-    }).catch(function(err) {
-        console.error('PDF Viewer — failed to load:', pdfUrl, err);
-        loader.innerHTML =
-            '<p style="color:#ff9cac;font-family:monospace;font-size:.8rem;' +
-            'padding:16px;text-align:center">PDF introuvable.<br>' + pdfUrl + '</p>';
-    });
+            dotsWrap.innerHTML = '';
+            for (var i = 1; i <= total; i++) {
+                (function(pageNum) {
+                    var dot = document.createElement('button');
+                    dot.className = 'slide-dot';
+                    dot.title = 'Page ' + pageNum;
+                    dot.addEventListener('click', function() { goTo(pageNum); });
+                    dotsWrap.appendChild(dot);
+                })(i);
+            }
+
+            btnPrev.disabled = false;
+            btnNext.disabled = false;
+            renderPage(1);
+
+        }).catch(function(err) {
+            console.error('[PDFViewer] Failed to load:', url, err);
+            loader.innerHTML =
+                '<p style="color:#ff9cac;font-family:monospace;font-size:.8rem;' +
+                'padding:20px;text-align:center;line-height:1.8">' +
+                '❌ PDF introuvable<br>' +
+                '<span style="opacity:.6;font-size:.72rem">' + url + '</span></p>';
+            loader.classList.remove('hidden');
+        });
+    }
+
+    // Boot with initial URL
+    loadPDF(pdfUrl);
+
+    // Return control object so callers can swap PDFs
+    return { load: loadPDF };
 }
