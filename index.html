@@ -325,6 +325,7 @@ var HEADERS = {
     python:  { title: '🐍 Python pour les élèves',  sub: 'Apprendre • Pratiquer • Réussir' },
     scratch: { title: '🐱 Scratch pour les élèves', sub: 'Créer • Animer • Jouer' }
 };
+var slidesViewerReady = false;
 
 function switchCourse(course) {
     document.querySelectorAll('.course-panel').forEach(p => p.classList.remove('active'));
@@ -338,10 +339,9 @@ function switchCourse(course) {
 
     try { localStorage.setItem('selectedCourse', course); } catch(e) {}
 
-    if (course === 'scratch') {
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, 200);
+    if (course === 'scratch' && !slidesViewerReady) {
+        slidesViewerReady = true;
+        initPDFViewer('viewer-slides', 'scratch/Slides-Scratch.pdf');
     }
 }
 
@@ -376,16 +376,15 @@ function selectTP(num){
     document.getElementById('tp-meta-title').textContent = TP_DATA[num].title;
     document.getElementById('tp-meta-desc').textContent  = TP_DATA[num].desc;
     document.getElementById('tp-download').href          = TP_DATA[num].file;
+    document.getElementById('tp-download').textContent   = '⬇ Ouvrir le TP ' + num;
 
-    if (tpViewer && tpViewer.load) {
+    if (!tpViewer) {
+        tpViewer = initPDFViewer('viewer-tp', TP_DATA[num].file);
+    } else {
         tpViewer.load(TP_DATA[num].file);
     }
 }
 
-
-// ── Init viewers ──────────────────────
-initPDFViewer('viewer-slides','scratch/Slides-Scratch.pdf');
-tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
 </script>
 
 </body>
