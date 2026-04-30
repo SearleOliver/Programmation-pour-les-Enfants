@@ -157,7 +157,7 @@
                 <div class="card-body">
                     <div class="card-icon">🔤</div>
                     <h3>Variables &amp; Types</h3>
-                    <p>int, float, str, bool — stocke et manipule tes premières données.</p>
+                    <p><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code> — stocke et manipule tes premières données.</p>
                 </div>
                 <span class="card-cta">Voir le module →</span>
             </a>
@@ -212,7 +212,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--featured" href="Projets/index.html">
+            <a class="card card--featured" href="modules/Projets/index.html">
                 <div class="card-number">07</div>
                 <div class="card-body">
                     <div class="card-icon">🚧</div>
@@ -262,7 +262,7 @@
                 </div>
             </div>
 
-            <a class="button" href="scratch/Slides-Scratch.pdf" target="_blank">
+            <a class="button" href="scratch/Slides.pdf" target="_blank">
                 ⬇ Ouvrir le PDF complet
             </a>
         </div>
@@ -355,12 +355,12 @@ try {
 // ── TP system ─────────────────────────
 var TP_DATA = {
     1:{title:'TP 01 – Ball Rebell',desc:'Boucles • Variables • Collisions • Score',file:'scratch/TP01_Scratch.pdf'},
-    2:{title:'TP 02',desc:'À compléter',file:'scratch/TP02_Scratch.pdf'},
-    3:{title:'TP 03',desc:'À compléter',file:'scratch/TP03_Scratch.pdf'},
-    4:{title:'TP 04',desc:'À compléter',file:'scratch/TP04_Scratch.pdf'},
-    5:{title:'TP 05',desc:'À compléter',file:'scratch/TP05_Scratch.pdf'},
-    6:{title:'TP 06',desc:'À compléter',file:'scratch/TP06_Scratch.pdf'},
-    7:{title:'TP 07',desc:'À compléter',file:'scratch/TP07_Scratch.pdf'}
+    2:{title:'TP 02 – Dé Virtuel',desc:'Boucles • Variables • Collisions',file:'scratch/TP02_Scratch.pdf'},
+    3:{title:'TP 03 – Labyrinthe',desc:'Intéraction clavier • Chronomètre',file:'scratch/TP03_Scratch.pdf'},
+    4:{title:'TP 04 – Sharko',desc:'Jeu intéractif',file:'scratch/TP04_Scratch.pdf'},
+    5:{title:'TP 05 – Mario Bros',desc:'Coordonnées • Gestion d\'évènements',file:'scratch/TP05_Scratch.pdf'},
+    6:{title:'TP 06 – Galactic Road',desc:'Boucles infini • Intéractions',file:'scratch/TP06_Scratch.pdf'},
+    7:{title:'TP 07 – Robot Dessinateur',desc:'Stylo',file:'scratch/TP07_Scratch.pdf'}
 };
 
 var currentTP = 1;
@@ -385,7 +385,7 @@ function selectTP(num){
 
 
 // ── Init viewers ──────────────────────
-initPDFViewer('viewer-slides','scratch/Slides-Scratch.pdf');
+initPDFViewer('viewer-slides','scratch/Slides.pdf');
 tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
 </script>
 
