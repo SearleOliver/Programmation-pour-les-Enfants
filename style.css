@@ -499,6 +499,30 @@ canvas, img {
     transform: scale(1.1);
 }
 
+.path-step.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.path-step.locked .step-dot {
+    border-color: rgba(255,255,255,0.05);
+}
+
+.path-step.locked:hover .step-dot {
+    transform: none;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.path-step.shake {
+    animation: shake 0.3s;
+}
+
 /* ── Legacy classes (keep for module pages) ── */
 .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }
 .sidebar h2 { font-size: 18px; margin-bottom: 20px; }

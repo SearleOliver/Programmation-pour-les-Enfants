@@ -438,15 +438,14 @@ const PATH_LINKS = [
     "modules/Projets/index.html"
 ];
 
-document.querySelectorAll('.path-step').forEach((step, i) => {
-    step.addEventListener('click', () => {
-        window.location.href = PATH_LINKS[i];
-    });
-});
-
 const steps = document.querySelectorAll('.path-step');
 
 let progress = JSON.parse(localStorage.getItem('pythonProgress') || '[]');
+
+function isUnlocked(index) {
+    if (index === 1) return true;
+    return progress.includes(index - 1);
+}
 
 function updateProgressUI() {
     let maxCompleted = 0;
@@ -455,6 +454,7 @@ function updateProgressUI() {
         const index = i + 1;
 
         step.classList.toggle('completed', progress.includes(index));
+        step.classList.toggle('locked', !isUnlocked(index));
 
         if (progress.includes(index)) {
             maxCompleted = index;
@@ -467,26 +467,36 @@ function updateProgressUI() {
 
 steps.forEach((step, i) => {
     const index = i + 1;
+    const dot = step.querySelector('.step-dot');
 
-    step.addEventListener('click', (e) => {
-        if (e.shiftKey) {
-            // SHIFT + click = mark as done
-            if (!progress.includes(index)) {
-                progress.push(index);
-            } else {
-                progress = progress.filter(x => x !== index);
-            }
+    // 🎯 CLICK ON DOT → toggle completion ONLY
+    dot.addEventListener('click', (e) => {
+        e.stopPropagation(); // 🚫 prevents navigation
 
-            localStorage.setItem('pythonProgress', JSON.stringify(progress));
-            updateProgressUI();
+        if (!isUnlocked(index)) return;
+
+        if (!progress.includes(index)) {
+            progress.push(index);
         } else {
-            // normal click = go to module
-            window.location.href = PATH_LINKS[i];
+            progress = progress.filter(x => x !== index);
         }
+
+        localStorage.setItem('pythonProgress', JSON.stringify(progress));
+        updateProgressUI();
+    });
+
+    // 🚀 CLICK ON STEP → navigate if unlocked
+    step.addEventListener('click', () => {
+        if (!isUnlocked(index)) {
+            // optional feedback
+            step.classList.add('shake');
+            setTimeout(() => step.classList.remove('shake'), 300);
+            return;
+        }
+
+        window.location.href = PATH_LINKS[i];
     });
 });
-
-updateProgressUI();
 </script>
 
 </body>
