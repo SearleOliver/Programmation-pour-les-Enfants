@@ -151,39 +151,39 @@
     <div class="course-panel python-panel active" id="panel-python">
         <div class="python-path">
 
-            <div class="path-line"></div>
+            <div class="path-progress"></div>
 
-            <div class="path-step active">
+            <div class="path-step" data-step="1">
                 <div class="step-dot">01</div>
                 <div class="step-label">Variables</div>
             </div>
 
-            <div class="path-step">
+            <div class="path-step" data-step="2">
                 <div class="step-dot">02</div>
                 <div class="step-label">Conditions</div>
             </div>
 
-            <div class="path-step">
+            <div class="path-step" data-step="3">
                 <div class="step-dot">03</div>
                 <div class="step-label">Fonctions</div>
             </div>
 
-            <div class="path-step">
+            <div class="path-step" data-step="4">
                 <div class="step-dot">04</div>
                 <div class="step-label">Boucles</div>
             </div>
 
-            <div class="path-step">
+            <div class="path-step" data-step="5">
                 <div class="step-dot">05</div>
                 <div class="step-label">Listes</div>
             </div>
 
-            <div class="path-step">
+            <div class="path-step" data-step="6">
                 <div class="step-dot">06</div>
                 <div class="step-label">Dictionnaires</div>
             </div>
 
-            <div class="path-step featured">
+            <div class="path-step featured" data-step="7">
                 <div class="step-dot">🚧</div>
                 <div class="step-label">Projets</div>
             </div>
@@ -384,22 +384,6 @@ function switchCourse(course) {
             window.dispatchEvent(new Event('resize'));
         }, 200);
     }
-
-    document.querySelectorAll('.path-step').forEach((step, i) => {
-        step.addEventListener('click', () => {
-            const links = [
-                "modules/module1_bases/index.html",
-                "modules/module2_conditions/index.html",
-                "modules/module3_fonctions/index.html",
-                "modules/module4_boucles/index.html",
-                "modules/module5_listes_et_chaines/index.html",
-                "modules/module6_dictionnaires/index.html",
-                "modules/Projets/index.html"
-            ];
-
-            window.location.href = links[i];
-        });
-    });
 }
 
 // Restore tab
@@ -444,6 +428,65 @@ function selectTP(num){
 // ── Init viewers ──────────────────────
 initPDFViewer('viewer-slides','scratch/Slides.pdf');
 tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
+const PATH_LINKS = [
+    "modules/module1_bases/index.html",
+    "modules/module2_conditions/index.html",
+    "modules/module3_fonctions/index.html",
+    "modules/module4_boucles/index.html",
+    "modules/module5_listes_et_chaines/index.html",
+    "modules/module6_dictionnaires/index.html",
+    "modules/Projets/index.html"
+];
+
+document.querySelectorAll('.path-step').forEach((step, i) => {
+    step.addEventListener('click', () => {
+        window.location.href = PATH_LINKS[i];
+    });
+});
+
+const steps = document.querySelectorAll('.path-step');
+
+let progress = JSON.parse(localStorage.getItem('pythonProgress') || '[]');
+
+function updateProgressUI() {
+    let maxCompleted = 0;
+
+    steps.forEach((step, i) => {
+        const index = i + 1;
+
+        step.classList.toggle('completed', progress.includes(index));
+
+        if (progress.includes(index)) {
+            maxCompleted = index;
+        }
+    });
+
+    const percent = (maxCompleted - 1) / (steps.length - 1) * 100;
+    document.querySelector('.path-progress').style.width = percent + '%';
+}
+
+steps.forEach((step, i) => {
+    const index = i + 1;
+
+    step.addEventListener('click', (e) => {
+        if (e.shiftKey) {
+            // SHIFT + click = mark as done
+            if (!progress.includes(index)) {
+                progress.push(index);
+            } else {
+                progress = progress.filter(x => x !== index);
+            }
+
+            localStorage.setItem('pythonProgress', JSON.stringify(progress));
+            updateProgressUI();
+        } else {
+            // normal click = go to module
+            window.location.href = PATH_LINKS[i];
+        }
+    });
+});
+
+updateProgressUI();
 </script>
 
 </body>
