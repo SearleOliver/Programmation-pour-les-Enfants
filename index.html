@@ -189,6 +189,9 @@
             </div>
 
         </div>
+        <button class="reset-btn" onclick="resetProgress()">
+            🔄 Réinitialiser la progression
+        </button>
         
         <div class="section-label">📚 Modules du cours</div>
         <div class="modules-grid">
@@ -527,6 +530,11 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgressUI();
     updateCardsUI(); // optional but safe
 });
+function resetProgress() {
+    localStorage.removeItem('pythonProgress');
+    progress = [];
+    updateProgressUI();
+}
 
 </script>
 
