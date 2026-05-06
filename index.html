@@ -193,7 +193,7 @@
         <div class="section-label">📚 Modules du cours</div>
         <div class="modules-grid">
 
-            <a class="card card--secondary" href="modules/module1_bases/index.html">
+            <a class="card card--secondary" data-step="1" href="modules/module1_bases/index.html">
                 <div class="card-number">01</div>
                 <div class="card-body">
                     <div class="card-icon">🔤</div>
@@ -203,7 +203,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--secondary" href="modules/module2_conditions/index.html">
+            <a class="card card--secondary" data-step="2" href="modules/module2_conditions/index.html">
                 <div class="card-number">02</div>
                 <div class="card-body">
                     <div class="card-icon">🔀</div>
@@ -213,7 +213,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--secondary" href="modules/module3_fonctions/index.html">
+            <a class="card card--secondary" data-step="3" href="modules/module3_fonctions/index.html">
                 <div class="card-number">03</div>
                 <div class="card-body">
                     <div class="card-icon">⚙️</div>
@@ -223,7 +223,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--secondary" href="modules/module4_boucles/index.html">
+            <a class="card card--secondary" data-step="4" href="modules/module4_boucles/index.html">
                 <div class="card-number">04</div>
                 <div class="card-body">
                     <div class="card-icon">🔄</div>
@@ -233,7 +233,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--secondary" href="modules/module5_listes_et_chaines/index.html">
+            <a class="card card--secondary" data-step="5" href="modules/module5_listes_et_chaines/index.html">
                 <div class="card-number">05</div>
                 <div class="card-body">
                     <div class="card-icon">📦</div>
@@ -243,7 +243,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--secondary" href="modules/module6_dictionnaires/index.html">
+            <a class="card card--secondary" data-step="6" href="modules/module6_dictionnaires/index.html">
                 <div class="card-number">06</div>
                 <div class="card-body">
                     <div class="card-icon">📚</div>
@@ -253,7 +253,7 @@
                 <span class="card-cta">Voir le module →</span>
             </a>
 
-            <a class="card card--featured" href="modules/Projets/index.html">
+           <a class="card card--featured" data-step="7" href="modules/Projets/index.html">
                 <div class="card-number">07</div>
                 <div class="card-body">
                     <div class="card-icon">🚧</div>
@@ -463,6 +463,8 @@ function updateProgressUI() {
 
     const percent = (maxCompleted - 1) / (steps.length - 1) * 100;
     document.querySelector('.path-progress').style.width = percent + '%';
+
+    updateCardsUI(); // 🔥 ADD THIS
 }
 
 steps.forEach((step, i) => {
@@ -495,6 +497,32 @@ steps.forEach((step, i) => {
         }
 
         window.location.href = PATH_LINKS[i];
+    });
+});
+
+const cards = document.querySelectorAll('.modules-grid .card');
+
+function updateCardsUI() {
+    cards.forEach(card => {
+        const index = parseInt(card.dataset.step);
+
+        const unlocked = isUnlocked(index);
+
+        card.classList.toggle('locked', !unlocked);
+        card.classList.toggle('unlocked', unlocked);
+    });
+}
+
+cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+        const index = parseInt(card.dataset.step);
+
+        if (!isUnlocked(index)) {
+            e.preventDefault();
+
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 300);
+        }
     });
 });
 </script>

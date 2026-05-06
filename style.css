@@ -523,6 +523,25 @@ canvas, img {
     animation: shake 0.3s;
 }
 
+.card.locked {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+    pointer-events: none;
+    position: relative;
+}
+
+.card.locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 1.2rem;
+}
+
+.card.unlocked:hover {
+    transform: translateY(-4px);
+}
+
 /* ── Legacy classes (keep for module pages) ── */
 .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }
 .sidebar h2 { font-size: 18px; margin-bottom: 20px; }
