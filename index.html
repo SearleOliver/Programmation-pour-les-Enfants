@@ -479,8 +479,6 @@ steps.forEach((step, i) => {
 
         if (!progress.includes(index)) {
             progress.push(index);
-        } else {
-            progress = progress.filter(x => x !== index);
         }
 
         localStorage.setItem('pythonProgress', JSON.stringify(progress));
