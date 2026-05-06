@@ -149,6 +149,47 @@
          PYTHON
     ═══════════════════════════════════════════════════════ -->
     <div class="course-panel python-panel active" id="panel-python">
+        <div class="python-path">
+
+            <div class="path-line"></div>
+
+            <div class="path-step active">
+                <div class="step-dot">01</div>
+                <div class="step-label">Variables</div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-dot">02</div>
+                <div class="step-label">Conditions</div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-dot">03</div>
+                <div class="step-label">Fonctions</div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-dot">04</div>
+                <div class="step-label">Boucles</div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-dot">05</div>
+                <div class="step-label">Listes</div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-dot">06</div>
+                <div class="step-label">Dictionnaires</div>
+            </div>
+
+            <div class="path-step featured">
+                <div class="step-dot">🚧</div>
+                <div class="step-label">Projets</div>
+            </div>
+
+        </div>
+        
         <div class="section-label">📚 Modules du cours</div>
         <div class="modules-grid">
 
@@ -343,6 +384,22 @@ function switchCourse(course) {
             window.dispatchEvent(new Event('resize'));
         }, 200);
     }
+
+    document.querySelectorAll('.path-step').forEach((step, i) => {
+        step.addEventListener('click', () => {
+            const links = [
+                "modules/module1_bases/index.html",
+                "modules/module2_conditions/index.html",
+                "modules/module3_fonctions/index.html",
+                "modules/module4_boucles/index.html",
+                "modules/module5_listes_et_chaines/index.html",
+                "modules/module6_dictionnaires/index.html",
+                "modules/Projets/index.html"
+            ];
+
+            window.location.href = links[i];
+        });
+    });
 }
 
 // Restore tab

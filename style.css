@@ -354,6 +354,81 @@ canvas, img {
     display: block;
 }
 
+/* ── Python Learning Path ───────────────────────── */
+
+.python-path {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 10px 0 40px;
+    padding: 20px 10px 10px;
+}
+
+/* line behind */
+.path-line {
+    position: absolute;
+    top: 30px;
+    left: 5%;
+    width: 90%;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* step */
+.path-step {
+    position: relative;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.path-step:hover {
+    transform: translateY(-4px);
+}
+
+/* dot */
+.step-dot {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: #7a7f99;
+}
+
+/* label */
+.step-label {
+    font-size: 0.7rem;
+    color: #7a7f99;
+}
+
+/* active step */
+.path-step.active .step-dot {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: rgba(74, 222, 128, 0.4);
+    color: #4ade80;
+}
+
+.path-step.active .step-label {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+/* final (projects) */
+.path-step.featured .step-dot {
+    background: rgba(255, 200, 0, 0.15);
+    border-color: rgba(255, 200, 0, 0.4);
+    color: #ffcc00;
+}
+
 /* ── Legacy classes (keep for module pages) ── */
 .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }
 .sidebar h2 { font-size: 18px; margin-bottom: 20px; }
