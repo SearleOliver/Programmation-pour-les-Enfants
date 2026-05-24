@@ -333,24 +333,21 @@
             </div>
 
             <!-- Viewer -->
-            <div class="slide-viewer" id="viewer-tp">
-                <div class="slide-canvas-wrap">
-                    <canvas class="slide-canvas"></canvas>
-                    <div class="slide-loader">
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                    </div>
+           <div class="scroll-viewer" id="viewer-tp">
+                <div class="scroll-viewer-header">
+                    <span class="scroll-viewer-label">↕ défile pour lire</span>
+                    <span class="scroll-counter"></span>
                 </div>
-                <div class="slide-controls">
-                    <button class="slide-btn btn-prev" disabled>&#8592;</button>
-                    <div class="slide-mid">
-                        <div class="slide-dots"></div>
-                        <div class="slide-counter">— / —</div>
+                <div class="scroll-body">
+                    <div class="scroll-loader">
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
                     </div>
-                    <button class="slide-btn btn-next" disabled>&#8594;</button>
+                    <div class="scroll-pages"></div>
                 </div>
             </div>
+
 
             <a class="button" id="tp-download" href="scratch/TP01_Scratch.pdf" target="_blank">
                 ⬇ Ouvrir le TP 1
@@ -430,7 +427,7 @@ function selectTP(num){
 
 // ── Init viewers ──────────────────────
 initPDFViewer('viewer-slides','scratch/Slides.pdf');
-tpViewer = initPDFViewer('viewer-tp', TP_DATA[1].file);
+tpViewer = initScrollViewer('viewer-tp', TP_DATA[1].file);
 const PATH_LINKS = [
     "modules/module1_bases/index.html",
     "modules/module2_conditions/index.html",
@@ -467,16 +464,15 @@ function updateProgressUI() {
     const percent = (maxCompleted - 1) / (steps.length - 1) * 100;
     document.querySelector('.path-progress').style.width = percent + '%';
 
-    updateCardsUI(); // 🔥 ADD THIS
+    updateCardsUI();
 }
 
 steps.forEach((step, i) => {
     const index = i + 1;
     const dot = step.querySelector('.step-dot');
 
-    // 🎯 CLICK ON DOT → toggle completion ONLY
     dot.addEventListener('click', (e) => {
-        e.stopPropagation(); // 🚫 prevents navigation
+        e.stopPropagation();
 
         if (!isUnlocked(index)) return;
 
@@ -488,10 +484,8 @@ steps.forEach((step, i) => {
         updateProgressUI();
     });
 
-    // 🚀 CLICK ON STEP → navigate if unlocked
     step.addEventListener('click', () => {
         if (!isUnlocked(index)) {
-            // optional feedback
             step.classList.add('shake');
             setTimeout(() => step.classList.remove('shake'), 300);
             return;
@@ -528,7 +522,7 @@ cards.forEach(card => {
 });
 document.addEventListener("DOMContentLoaded", () => {
     updateProgressUI();
-    updateCardsUI(); // optional but safe
+    updateCardsUI();
 });
 function resetProgress() {
     localStorage.removeItem('pythonProgress');

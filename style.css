@@ -558,6 +558,93 @@ canvas, img {
     color: #ff6b6b;
     border-color: rgba(255,100,100,0.4);
 }
+.scroll-viewer {
+    width: 100%;
+    background: #0a0c12;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+}
+ 
+.scroll-viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #111420;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+ 
+.scroll-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: #ffb347;
+    letter-spacing: 0.08em;
+}
+ 
+.scroll-viewer-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(122,127,153,0.6);
+    letter-spacing: 0.06em;
+}
+ 
+.scroll-body {
+    position: relative;
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+ 
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,179,71,0.3) transparent;
+}
+.scroll-body::-webkit-scrollbar { width: 6px; }
+.scroll-body::-webkit-scrollbar-track { background: transparent; }
+.scroll-body::-webkit-scrollbar-thumb {
+    background: rgba(255,179,71,0.3);
+    border-radius: 3px;
+}
+ 
+.scroll-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    transition: opacity 0.3s;
+}
+.scroll-loader.hidden { display: none; }
+ 
+.scroll-pages {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+ 
+.scroll-page {
+    position: relative;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+ 
+.scroll-page-num {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.55);
+    color: rgba(255,255,255,0.8);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    z-index: 2;
+    pointer-events: none;
+}
+
 
 /* ── Legacy classes (keep for module pages) ── */
 .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }

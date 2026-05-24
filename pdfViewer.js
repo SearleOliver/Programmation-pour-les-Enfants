@@ -1,6 +1,10 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+/* ══════════════════════════════════════════════════════════════
+   initPDFViewer  —  paginated slide viewer (one page at a time)
+   Used for: presentation slides
+   ══════════════════════════════════════════════════════════════ */
 function initPDFViewer(containerId, pdfUrl) {
     var container = document.getElementById(containerId);
     if (!container) {
@@ -20,26 +24,19 @@ function initPDFViewer(containerId, pdfUrl) {
     var current    = 1;
     var renderTask = null;
 
-    // ── Render ────────────────────────────────────────────────────
     function renderPage(num) {
         loader.classList.remove('hidden');
         if (renderTask) { renderTask.cancel(); renderTask = null; }
 
         pdfDoc.getPage(num).then(function(page) {
-            // Use container width; fall back to 800 if layout not ready
             var containerWidth = container.clientWidth || 800;
             var dpr   = window.devicePixelRatio || 1;
-
-            // Scale to fit width at device pixel ratio
             var naturalVp = page.getViewport({ scale: 1 });
-            var scale     = (containerWidth / naturalVp.width) * dpr;
-            var vp        = page.getViewport({ scale: scale });
+            var scale = (containerWidth / naturalVp.width) * dpr;
+            var vp    = page.getViewport({ scale: scale });
 
-            // Size canvas to actual rendered dimensions
             canvas.width  = vp.width;
             canvas.height = vp.height;
-
-            // CSS: full width, height auto so portrait pages aren't squished
             canvas.style.width  = '100%';
             canvas.style.height = 'auto';
 
@@ -48,15 +45,12 @@ function initPDFViewer(containerId, pdfUrl) {
                 renderTask = null;
                 loader.classList.add('hidden');
                 updateUI();
-            }).catch(function() {
-                renderTask = null;
-            });
+            }).catch(function() { renderTask = null; });
         }).catch(function(e) {
             console.error('[PDFViewer] getPage failed:', e);
         });
     }
 
-    // ── UI ────────────────────────────────────────────────────────
     function updateUI() {
         var total = pdfDoc.numPages;
         counter.textContent = current + ' / ' + total;
@@ -77,7 +71,6 @@ function initPDFViewer(containerId, pdfUrl) {
     btnPrev.addEventListener('click', function() { goTo(current - 1); });
     btnNext.addEventListener('click', function() { goTo(current + 1); });
 
-    // ── Resize ────────────────────────────────────────────────────
     var resizeTimer;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
@@ -86,23 +79,18 @@ function initPDFViewer(containerId, pdfUrl) {
         }, 150);
     });
 
-    // ── Load a PDF URL into this viewer ───────────────────────────
     function loadPDF(url) {
-        // Reset state
         pdfDoc  = null;
         current = 1;
-        dotsWrap.innerHTML = '';
+        dotsWrap.innerHTML  = '';
         counter.textContent = '— / —';
-        btnPrev.disabled = true;
-        btnNext.disabled = true;
+        btnPrev.disabled    = true;
+        btnNext.disabled    = true;
         loader.classList.remove('hidden');
-
-        console.log('[PDFViewer] Loading:', url);
 
         pdfjsLib.getDocument(url).promise.then(function(doc) {
             pdfDoc = doc;
             var total = doc.numPages;
-            console.log('[PDFViewer] Loaded OK:', url, total, 'pages');
 
             dotsWrap.innerHTML = '';
             for (var i = 1; i <= total; i++) {
@@ -130,9 +118,91 @@ function initPDFViewer(containerId, pdfUrl) {
         });
     }
 
-    // Boot with initial URL
     loadPDF(pdfUrl);
+    return { load: loadPDF };
+}
 
-    // Return control object so callers can swap PDFs
+
+/* ══════════════════════════════════════════════════════════════
+   initScrollViewer  —  all pages stacked, scrollable
+   Used for: A4 portrait TP documents
+   ══════════════════════════════════════════════════════════════ */
+function initScrollViewer(containerId, pdfUrl) {
+    var container = document.getElementById(containerId);
+    if (!container) {
+        console.error('[ScrollViewer] Container not found:', containerId);
+        return { load: function(){} };
+    }
+
+    var pagesWrap = container.querySelector('.scroll-pages');
+    var loader    = container.querySelector('.scroll-loader');
+    var counter   = container.querySelector('.scroll-counter');
+
+    function loadPDF(url) {
+        // Clear previous content
+        pagesWrap.innerHTML  = '';
+        counter.textContent  = '';
+        loader.classList.remove('hidden');
+
+        pdfjsLib.getDocument(url).promise.then(function(doc) {
+            var total = doc.numPages;
+            counter.textContent = total + ' page' + (total > 1 ? 's' : '');
+
+            // Render pages one by one, appending each canvas
+            var rendered = 0;
+
+            function renderNext(pageNum) {
+                doc.getPage(pageNum).then(function(page) {
+                    var containerWidth = pagesWrap.clientWidth || container.clientWidth || 800;
+                    var dpr   = window.devicePixelRatio || 1;
+                    var naturalVp = page.getViewport({ scale: 1 });
+                    var scale = (containerWidth / naturalVp.width) * dpr;
+                    var vp    = page.getViewport({ scale: scale });
+
+                    var pageWrap = document.createElement('div');
+                    pageWrap.className = 'scroll-page';
+
+                    // Page number badge
+                    var badge = document.createElement('div');
+                    badge.className = 'scroll-page-num';
+                    badge.textContent = pageNum + ' / ' + total;
+                    pageWrap.appendChild(badge);
+
+                    var cv = document.createElement('canvas');
+                    cv.width  = vp.width;
+                    cv.height = vp.height;
+                    cv.style.width  = '100%';
+                    cv.style.height = 'auto';
+                    cv.style.display = 'block';
+                    pageWrap.appendChild(cv);
+
+                    pagesWrap.appendChild(pageWrap);
+
+                    page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise.then(function() {
+                        rendered++;
+                        if (rendered === 1) {
+                            // Hide loader once first page is visible
+                            loader.classList.add('hidden');
+                        }
+                        if (pageNum < total) {
+                            renderNext(pageNum + 1);
+                        }
+                    });
+                });
+            }
+
+            renderNext(1);
+
+        }).catch(function(err) {
+            console.error('[ScrollViewer] Failed to load:', url, err);
+            loader.innerHTML =
+                '<p style="color:#ff9cac;font-family:monospace;font-size:.8rem;' +
+                'padding:20px;text-align:center;line-height:1.8">' +
+                '❌ PDF introuvable<br>' +
+                '<span style="opacity:.6;font-size:.72rem">' + url + '</span></p>';
+        });
+    }
+
+    loadPDF(pdfUrl);
     return { load: loadPDF };
 }
