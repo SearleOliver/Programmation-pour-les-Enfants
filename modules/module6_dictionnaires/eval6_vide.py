@@ -1,11 +1,10 @@
-## ÉVALUATION 4 – Listes et Dictionnaires
+## ÉVALUATION 6 – Dictionnaires
 ## =============================================
 ## Comme toujours : remplace chaque `pass` par ton code.
-## Ces fonctions doivent RETOURNER un résultat, pas juste l'afficher.
-
+## Ces fonctions doivent return un résultat, pas juste l'afficher.
 
 ## =========================================================
-## PARTIE 1 – Dictionnaires : compter
+## PARTIE 1 : compter
 ## =========================================================
 ## Rappel :
 ##   d = {}                → créer un dictionnaire vide
@@ -20,29 +19,7 @@ def compter_elements(liste):
 
 
 ## =========================================================
-## PARTIE 2 – Listes
-## =========================================================
-## Rappel :
-##   nouvelle_liste = []
-##   liste.append(x)      → ajouter un élément
-##   l1 + l2              → concaténer deux listes
-
-
-## Retourne une nouvelle liste contenant les éléments des deux listes.
-## Exemple : fusion_listes([1,2],[3,4]) → [1,2,3,4]
-def fusion_listes(l1, l2):
-    pass
-
-
-## Retourne une liste contenant seulement les nombres pairs.
-## Exemple : filtrer_pairs([1,2,3,4]) → [2,4]
-## 💡 Astuce : utilise % 2 == 0
-def filtrer_pairs(liste):
-    pass
-
-
-## =========================================================
-## PARTIE 3 – Dictionnaires : manipulation
+## PARTIE 2 : manipulation
 ## =========================================================
 ## Rappel :
 ##   for cle in dico:             → parcourir les clés
@@ -70,7 +47,7 @@ def max_cle(dico):
 
 
 ## =========================================================
-## PARTIE 4 – Chaînes de caractères + dictionnaires
+## PARTIE 3 – Chaînes de caractères + dictionnaires
 ## =========================================================
 ## Rappel :
 ##   phrase.split() → transforme une phrase en liste de mots
@@ -90,13 +67,31 @@ print("PARTIE 1 ─────────────────────�
 print("compter_elements :", compter_elements(["a","b","a"]))  # {"a":2,"b":1}
 
 print("\nPARTIE 2 ──────────────────────────────")
-print("fusion_listes    :", fusion_listes([1,2],[3,4]))       # [1,2,3,4]
-print("filtrer_pairs    :", filtrer_pairs([1,2,3,4]))         # [2,4]
-
-print("\nPARTIE 3 ──────────────────────────────")
 print("inverser_dico    :", inverser_dictionnaire({"a":1,"b":2})) # {1:"a",2:"b"}
 print("somme_valeurs    :", somme_valeurs({"a":1,"b":2,"c":3}))   # 6
 print("max_cle          :", max_cle({"a":1,"b":5,"c":3}))         # "b"
 
-print("\nPARTIE 4 ──────────────────────────────")
+print("\nPARTIE 3 ──────────────────────────────")
 print("compter_mots     :", compter_mots("hello world hello"))
+
+    results["compter_elements"] = run_tests_group([
+        (student.compter_elements, {"a":2,"b":1}, (["a","b","a"],)),
+        (student.compter_elements, {}, ([],)),
+    ], "compter_elements")
+
+    results["inverser_dictionnaire"] = run_tests_group([
+        (student.inverser_dictionnaire, {1:"a",2:"b"}, ({"a":1,"b":2},)),
+    ], "inverser_dictionnaire")
+
+    results["somme_valeurs"] = run_tests_group([
+        (student.somme_valeurs, 6, ({"a":1,"b":2,"c":3},)),
+        (student.somme_valeurs, 0, ({},)),
+    ], "somme_valeurs")
+
+    results["max_cle"] = run_tests_group([
+        (student.max_cle, "b", ({"a":1,"b":5,"c":3},)),
+    ], "max_cle")
+    
+    results["compter_mots"] = run_tests_group([
+        (student.compter_mots, {"hello":2,"world":1}, ("hello world hello",)),
+    ], "compter_mots")

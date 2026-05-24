@@ -25,8 +25,6 @@ def multiplier(a, b):
 def somme_a(n):
     pass  
         
-        
-
 
 ## Retourne le nombre d'entiers pairs entre 1 et n (inclus).
 ## Exemple : somme_paire_a(6) → 3  (2, 4, 6)
@@ -35,35 +33,7 @@ def somme_paire_a(n):
     pass
 
 ## =========================================================
-## PARTIE 2 – Boucles for sur des listes
-## =========================================================
-## Rappel :
-##   for element in ma_liste:   → parcourt chaque élément
-
-
-## Retourne la somme de tous les éléments d'une liste.
-## Exemple : somme_list([1, 2, 3, 4]) → 10
-def somme_liste(lst):
-    pass
-
-
-## Retourne le nombre de fois que val apparaît dans lst.
-## Exemple : nombre_occurrences([1, 2, 2, 3], 2) → 2
-def nombre_occurrences(lst, val):
-    pass
-
-
-## Retourne le plus grand élément d'une liste.
-## Exemple : max_liste([3, 1, 4, 1, 5, 9]) → 9
-## 💡 Astuce : commence par supposer que le premier élément est le max,
-##    puis parcours le reste pour vérifier.
-## ⚠️  Interdiction d'utiliser la fonction max() de Python !
-def max_liste(lst):
-    pass
-
-
-## =========================================================
-## PARTIE 3 – Boucles while
+## PARTIE 2 – Boucles while
 ## =========================================================
 ## Rappel :
 ##   while condition:   → répète TANT QUE la condition est vraie
@@ -84,7 +54,7 @@ def somme_while(n):
 
 
 ## =========================================================
-## PARTIE 4 – Factorielle
+## PARTIE 3 – Factorielle
 ## =========================================================
 ## La factorielle de n, notée n!, c'est :
 ##   n! = 1 × 2 × 3 × ... × n
@@ -97,7 +67,7 @@ def factorielle(n):
 
 
 ## =========================================================
-## PARTIE 5 – Défi final 🏆 : FizzBuzz
+## PARTIE 4 – Défi final 🏆 : FizzBuzz
 ## =========================================================
 ## FizzBuzz est un classique de la programmation !
 ## Pour chaque entier de 1 à n (inclus) :
@@ -120,20 +90,15 @@ def fizzbuzz(n):
 print("PARTIE 1 ──────────────────────────────")
 print("somme_a(4)           :", somme_a(4))          # 10
 print("somme_a(10)          :", somme_a(10))          # 55
-print("somme_paire_a(6) :", somme_paire_a(6)) # 3
+print("somme_paire_a(6) :", somme_paire_a(6))       # 3
 
 print("\nPARTIE 2 ──────────────────────────────")
-print("somme_liste([1,2,3,4]) :", somme_liste([1, 2, 3, 4]))        # 10
-print("nombre_occurrences   :", nombre_occurrences([1,2,2,3],2)) # 2
-print("max_liste            :", max_liste([3, 1, 4, 1, 5, 9]))   # 9
-
-print("\nPARTIE 3 ──────────────────────────────")
 print("countdown(3)        :", end=" ") ; countdown(3)          # 3 2 1 0
 print("somme_while(4)        :", somme_while(4))                    # 10
 
-print("\nPARTIE 4 ──────────────────────────────")
+print("\nPARTIE 3 ──────────────────────────────")
 print("factorielle(0)        :", factorielle(0))   # 1
 print("factorielle(5)        :", factorielle(5))   # 120
 
-print("\nPARTIE 5 ──────────────────────────────")
+print("\nPARTIE 4 ──────────────────────────────")
 print("fizzbuzz(15)        :", fizzbuzz(15))
