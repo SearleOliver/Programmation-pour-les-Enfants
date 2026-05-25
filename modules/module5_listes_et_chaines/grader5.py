@@ -1,145 +1,60 @@
-import importlib.util
-import traceback
-import os
+import importlib.util, traceback, os
 
-def load_student_file():
+def load_student():
     files = [f for f in os.listdir() if f.startswith("eval5_") and f.endswith(".py")]
+    if not files:    print("❌ Aucun fichier eval5_Prenom.py trouvé."); return None
+    if len(files)>1: print("❌ Plusieurs fichiers trouvés."); return None
+    spec = importlib.util.spec_from_file_location("student", files[0])
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m); print(f"✔ {files[0]}"); return m
 
-    if len(files) == 0:
-        print("❌ Aucun fichier eval5 trouvé.")
-        return None
+def approx(a,b,tol=1e-9):
+    try: return abs(float(a)-float(b))<tol
+    except: return a==b
 
-    if len(files) > 1:
-        print("❌ Plusieurs fichiers trouvés. Gardez seulement le vôtre.")
-        return None
+def group(fn, cases, label, tol=False):
+    p,t,fails = 0,len(cases),[]
+    for args,exp in cases:
+        try:
+            r = fn(*args)
+            ok = approx(r,exp) if tol else r==exp
+            if ok: p+=1
+            else: fails.append(f"  ❌ {label}{args} → {r!r}  attendu {exp!r}")
+        except Exception as e:
+            fails.append(f"  💥 {label}{args} → erreur : {e}")
+    return p,t,fails
 
-    file = files[0]
+def run(s):
+    res = {}
+    res["somme_liste"]        = group(s.somme_liste,        [(([1,2,3,4],),10),(([0],),0),(([5,5],),10)],              "somme_liste")
+    res["min_liste"]          = group(s.min_liste,           [(([3,1,4,1,5],),1),(([9,2,7],),2),(([0],),0)],           "min_liste")
+    res["max_liste"]          = group(s.max_liste,           [(([3,1,4,1,5,9],),9),(([1],),1),(([0,0,0],),0)],         "max_liste")
+    res["moyenne_liste"]      = group(s.moyenne_liste,       [(([2,4,6],),4.0),(([1,2,3],),2.0)],                      "moyenne_liste", tol=True)
+    res["nombre_occurrences"] = group(s.nombre_occurrences,  [(([1,2,2,3],2),2),(([1,1,1],1),3),(([],1),0)],           "nombre_occurrences")
+    res["filtrer_pairs"]      = group(s.filtrer_pairs,       [(([1,2,3,4,5,6],),[2,4,6]),(([1,3,5],),[]),(([2,4],),[2,4])], "filtrer_pairs")
+    res["inverser_liste"]     = group(s.inverser_liste,      [(([1,2,3],),[3,2,1]),(([1],),[1]),(([],),[])],           "inverser_liste")
+    res["fusion_listes"]      = group(s.fusion_listes,       [(([1,2],[3,4]),[1,2,3,4]),(([],[1]),  [1])],             "fusion_listes")
+    res["compter_voyelles"]   = group(s.compter_voyelles,    [(("Bonjour",),3),(("hello",),2),(("bcdf",),0),(("AEIOU",),5)], "compter_voyelles")
+    res["est_palindrome"]     = group(s.est_palindrome,      [(("radar",),True),(("Radar",),True),(("hello",),False),(("kayak",),True)], "est_palindrome")
+    res["inverser_mots"]      = group(s.inverser_mots,       [(("a b c",),"c b a"),(("bonjour monde",),"monde bonjour")], "inverser_mots")
+    res["est_numerique"]      = group(s.est_numerique,       [(("1234",),True),(("12a4",),False),(("",),True),(("0",),True)], "est_numerique")
+    return res
 
-    spec = importlib.util.spec_from_file_location("student", file)
-    student = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(student)
-
-    print(f"✔ Fichier chargé : {file}")
-    return student
-
-
-def run_tests(student):
-    results = {}
-
-    def run_tests_group(tests, label):
-        passed = 0
-        total = len(tests)
-        failures = []
-
-        for func, expected, args in tests:
-            try:
-                result = func(*args)
-                if result == expected:
-                    passed += 1
-                else:
-                    failures.append(
-                        f"❌ {label}{args} → reçu {result}, attendu {expected}"
-                    )
-            except Exception as e:
-                failures.append(
-                    f"💥 {label}{args} → ERROR in {func.__name__}: {e}"
-                )
-
-        return passed, total, failures
-    
-    results["somme_liste"] = run_tests_group([
-        (student.somme_liste,  0, ([],)),
-        (student.somme_liste,  1, ([1],)),
-        (student.somme_liste, 10, ([1, 2, 3, 4],)),
-        (student.somme_liste, 15, ([1, 2, 3, 4, 5]),),
-        (student.somme_liste,  0, ([-3, 0, 3]),),
-    ], "somme_liste")
-    
-    results["nombre_occurences"] = run_tests_group([
-        (student.nombre_occurrences, 0, ([],1)),
-        (student.nombre_occurrences, 1, ([1],       1)),
-        (student.nombre_occurrences, 2, ([1,2,2,3], 2)),
-        (student.nombre_occurrences, 0, ([1,2,3],   9)),
-        (student.nombre_occurrences, 3, ([5,5,5],   5)),
-    ], "nombre_occurences")
-
-    results["max_liste"] = run_tests_group([
-        (student.max_liste,  1, ([1],)),
-        (student.max_liste,  9, ([3, 1, 4, 1, 5, 9],)),
-        (student.max_liste,  0, ([-3, -1, 0],)),
-        (student.max_liste, 42, ([10, 42, 7],)),
-        (student.max_liste,  5, ([5, 5, 5],)),
-    ], "max_liste")
-
-    results["compter_elements"] = run_tests_group([
-        (student.compter_elements, {"a":2,"b":1}, (["a","b","a"],)),
-        (student.compter_elements, {}, ([],)),
-    ], "compter_elements")
-
-    results["fusion_listes"] = run_tests_group([
-        (student.fusion_listes, [1,2,3,4], ([1,2],[3,4])),
-        (student.fusion_listes, [], ([],[])),
-    ], "fusion_listes")
-
-    results["inverser_dictionnaire"] = run_tests_group([
-        (student.inverser_dictionnaire, {1:"a",2:"b"}, ({"a":1,"b":2},)),
-    ], "inverser_dictionnaire")
-
-    results["somme_valeurs"] = run_tests_group([
-        (student.somme_valeurs, 6, ({"a":1,"b":2,"c":3},)),
-        (student.somme_valeurs, 0, ({},)),
-    ], "somme_valeurs")
-
-    results["max_cle"] = run_tests_group([
-        (student.max_cle, "b", ({"a":1,"b":5,"c":3},)),
-    ], "max_cle")
-
-    results["filtrer_pairs"] = run_tests_group([
-        (student.filtrer_pairs, [2,4], ([1,2,3,4],)),
-        (student.filtrer_pairs, [], ([1,3,5],)),
-    ], "filtrer_pairs")
-
-    results["compter_mots"] = run_tests_group([
-        (student.compter_mots, {"hello":2,"world":1}, ("hello world hello",)),
-    ], "compter_mots")
-
-    return results
-
-
-def display(results):
-    total_passed = 0
-    total_tests = 0
-
-    print("\n--- RESULTS ---")
-
-    for ex, (p, t, fails) in results.items():
-        print(f"{ex}: {p}/{t}")
-        total_passed += p
-        total_tests += t
-        for f in fails:
-            print(f)
-
-    percent = (total_passed / total_tests) * 100
-
-    if percent == 100:
-        level = "Advanced"
-    elif percent >= 60:
-        level = "Intermediate"
-    else:
-        level = "Beginner"
-
-    print(f"\nTOTAL: {total_passed}/{total_tests} ({level})")
-    input("\nPress Enter to exit...")
-
+def display(res):
+    tp=0; tt=0
+    print("\n─── RÉSULTATS ─────────────────────")
+    for ex,(p,t,fails) in res.items():
+        print(f"{'✅' if p==t else '⚠️ '} {ex}: {p}/{t}")
+        for f in fails: print(f)
+        tp+=p; tt+=t
+    pct=tp/tt*100
+    level="Advanced" if pct==100 else "Intermediate" if pct>=60 else "Beginner"
+    print(f"\nTOTAL : {tp}/{tt}  ({level})")
+    input("\nAppuyez sur Entrée pour quitter...")
 
 if __name__ == "__main__":
     try:
-        student = load_student_file()
-        if student is None:
-            input("\nAppuyez sur Entrée pour quitter...")
-        else:
-            results = run_tests(student)
-            display(results)
+        s = load_student()
+        if s: display(run(s))
     except Exception:
-        print("Crash du programme.")
-        traceback.print_exc()
+        traceback.print_exc(); input("\nAppuyez sur Entrée pour quitter...")

@@ -1,36 +1,103 @@
-# ÉVALUATION 1 — Bases Python
-## =========================================================
-## Dans cette évaluation on va tester vos connaissances des opérations de base.
-## Vous trouverez dans ce fichier des variables pré definies et des variables à compléter
-## Enregistrez votre travail en nommant le fichier comme ceci : eval1_Prenom.py
-## Pour évaluer votre travail lancez ./grader.exe
+## ══════════════════════════════════════════════════════════════
+## ÉVALUATION 1 – Variables & Types
+## ══════════════════════════════════════════════════════════════
+## Règles :
+##   • Remplace chaque None par ta valeur
+##   • Enregistre le fichier : eval1_Prenom.py
+##   • Lance grader1.exe pour voir ton score
+## ══════════════════════════════════════════════════════════════
 
-# Voici les variables a manipuler :
 
-# infos article
-nom = "Sac de patates"
-prix = 5.89
-poids = 1.5
+## ──────────────────────────────────────────────────────────────
+## PARTIE 1 – Opérations arithmétiques
+## ──────────────────────────────────────────────────────────────
+## Données :
+nom    = "Sac de patates"
+prix   = 5.89
+poids  = 1.5
 
-# Exercice 1 : donne le prix pour 25 articles.
-# Utilise la variable prix et un des operateurs de base.
-prixTotalPatates = None #TODO
+## 1a. Prix total pour 25 articles
+prixTotal25      = None  # TODO
 
-# Exercice 2 : Si chaque article pèse 1.5kg quel est le prix par kilo ?
-# Utilise les variables prix et poids.
-prixKgPatates = None #TODO
+## 1b. Prix par kilo (prix / poids)
+prixKilo         = None  # TODO
 
-# Exercice 3 : Donne le prix total pour 3.7kg de patates et 5.8 kg d'onions.
-prixKgOnions = 3.99
+## 1c. Prix total pour 3.7 kg de patates + 5.8 kg d'oignons (3.99 €/kg)
+prixKgOignons    = 3.99
+prixPanier       = None  # TODO
 
-prixTotal = None #TODO
+## 1d. Prix final après 15 % de réduction sur prixPanier
+prixFinal        = None  # TODO
 
-# Exercice 4 : Calcule le prix final après une réduction de 15% sur le prixTotal
-prixFinal = None #TODO
+## 1e. Division ENTIÈRE : combien de sacs entiers peut-on acheter avec 20 € ?
+nbSacs           = None  # TODO
 
-# Exercice 5 : Complète la variable mess age pour qu'elle affiche :
-# "Produit : Sac de patates Prix : 5.99 Poids : 1.5kg"
-# Attention au espaces
-message = None #TODO
+## 1f. Reste après avoir acheté nbSacs sacs (utilise %)
+monnaie          = None  # TODO
 
-# Vous pouvez tester le rendu avec print
+
+## ──────────────────────────────────────────────────────────────
+## PARTIE 2 – Conversions de types
+## ──────────────────────────────────────────────────────────────
+
+## 2a. Convertis la chaîne "42" en entier
+age_texte        = "42"
+age_entier       = None  # TODO
+
+## 2b. Convertis la chaîne "3.14" en flottant
+pi_texte         = "3.14"
+pi_float         = None  # TODO
+
+## 2c. Convertis le nombre 2025 en chaîne de caractères
+annee_int        = 2025
+annee_texte      = None  # TODO
+
+## 2d. Que donne int(9.99) ?  Calcule et stocke le résultat
+arrondi          = None  # TODO
+
+
+## ──────────────────────────────────────────────────────────────
+## PARTIE 3 – Chaînes de caractères
+## ──────────────────────────────────────────────────────────────
+prenom  = "alice"
+nom_fam = "DUPONT"
+
+## 3a. Longueur de prenom
+longueur_prenom  = None  # TODO
+
+## 3b. prenom en MAJUSCULES
+prenom_maj       = None  # TODO
+
+## 3c. nom_fam en minuscules
+nom_min          = None  # TODO
+
+## 3d. Concaténation avec un espace : "alice DUPONT"
+nom_complet      = None  # TODO
+
+## 3e. prenom répété 3 fois : "alicealicealice"
+prenom_x3        = None  # TODO
+
+## 3f. f-string : "Bonjour alice, tu as 42 ans."
+##     Utilise prenom et age_entier
+message          = None  # TODO
+
+
+## ──────────────────────────────────────────────────────────────
+## Affichage — tu peux décommenter pour tester
+## ──────────────────────────────────────────────────────────────
+# print("1a:", prixTotal25)
+# print("1b:", prixKilo)
+# print("1c:", prixPanier)
+# print("1d:", prixFinal)
+# print("1e:", nbSacs)
+# print("1f:", monnaie)
+# print("2a:", age_entier,   type(age_entier))
+# print("2b:", pi_float,     type(pi_float))
+# print("2c:", annee_texte,  type(annee_texte))
+# print("2d:", arrondi)
+# print("3a:", longueur_prenom)
+# print("3b:", prenom_maj)
+# print("3c:", nom_min)
+# print("3d:", nom_complet)
+# print("3e:", prenom_x3)
+# print("3f:", message)

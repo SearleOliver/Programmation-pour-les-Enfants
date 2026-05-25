@@ -1,146 +1,64 @@
-import os
-import importlib.util
+import os, importlib.util
 
-def load_student(file_name):
-    spec = importlib.util.spec_from_file_location(file_name, file_name)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+def load(f):
+    spec = importlib.util.spec_from_file_location(f, f)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
 
+def run_tests(fn, cases):
+    p = 0
+    for args, exp in cases:
+        try:
+            if fn(*args) == exp: p += 1
+        except: pass
+    return p, len(cases)
 
-def grade_student(student):
-    def run_tests(tests, label):
-        passed = 0
-        total = len(tests)
-        failures = []
+def grade(s):
+    res = {}
+    res["somme_n"]           = run_tests(s.somme_n,          [((5,),15),((10,),55),((1,),1),((0,),0)])
+    res["somme_pairs"]       = run_tests(s.somme_pairs,       [((6,),12),((5,),6),((1,),0),((10,),30)])
+    res["compte_a_rebours"]  = run_tests(s.compte_a_rebours,  [((4,),[4,3,2,1,0]),((0,),[0]),((2,),[2,1,0])])
+    res["somme_chiffres"]    = run_tests(s.somme_chiffres,    [((123,),6),((999,),27),((10,),1),((0,),0)])
+    res["factorielle"]       = run_tests(s.factorielle,       [((0,),1),((1,),1),((5,),120),((7,),5040)])
+    res["puissance_boucle"]  = run_tests(s.puissance_boucle,  [((2,8),256),((3,3),27),((5,0),1),((1,100),1)])
+    res["syracuse"]          = run_tests(s.syracuse,          [((6,),8),((1,),0),((2,),1)])
+    fb = [1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz",11,"Fizz",13,14,"FizzBuzz"]
+    res["fizzbuzz"]          = run_tests(s.fizzbuzz,          [((15,),fb)])
+    res["est_premier"]       = run_tests(s.est_premier,       [((2,),True),((7,),True),((9,),False),((1,),False),((13,),True)])
+    res["compter_multiples"] = run_tests(s.compter_multiples, [((10,3),3),((10,2),5),((10,10),1),((10,11),0)])
+    return res
 
-        for func, expected, args in tests:
-            try:
-                result = func(*args)
-                if result == expected:
-                    passed += 1
-                else:
-                    failures.append(
-                        f"  ❌ {label}{args} → reçu {repr(result)}, attendu {repr(expected)}"
-                    )
-            except Exception as e:
-                failures.append(
-                    f"  💥 {label}{args} → erreur : {e}"
-                )
+COLS = ["somme_n","somme_pairs","compte_a_rebours","somme_chiffres",
+        "factorielle","puissance_boucle","syracuse",
+        "fizzbuzz","est_premier","compter_multiples"]
 
-        return passed, total, failures
-
-    results = {}
-
-    # --- somme_a ---
-    results["somme_a"] = run_tests([
-        (student.somme_a, 0, (0,)),
-        (student.somme_a, 1, (1,)),
-        (student.somme_a,10, (4,)),
-        (student.somme_a,15, (5,)),
-        (student.somme_a,55, (10,)),
-    ], "somme_a")
-
-    # --- somme_paire_a ---
-    results["somme_paire_a"] = run_tests([
-        (student.somme_paire_a, 0, (1,)),
-        (student.somme_paire_a, 2, (2,)),
-        (student.somme_paire_a, 6, (5,)),
-        (student.somme_paire_a,12, (6,)),
-        (student.somme_paire_a,30, (10,)),
-    ], "somme_paire_a")
-
-    # --- somme_while ---
-    results["somme_while"] = run_tests([
-        (student.somme_while,0, (0,)),
-        (student.somme_while,1, (1,)),
-        (student.somme_while,10,(4,)),
-        (student.somme_while,15,(5,)),
-        (student.somme_while,55,(10,)),
-    ], "somme_while")
-
-    # --- factorielle ---
-    results["factorielle"] = run_tests([
-        (student.factorielle,1,(0,)),
-        (student.factorielle,1,(1,)),
-        (student.factorielle,2,(2,)),
-        (student.factorielle,6,(3,)),
-        (student.factorielle,24,(4,)),
-        (student.factorielle,120,(5,)),
-    ], "factorielle")
-
-    # --- fizzbuzz ---
-    results["fizzbuzz"] = run_tests([
-        (student.fizzbuzz,[],(0,)),
-        (student.fizzbuzz,[1],(1,)),
-        (student.fizzbuzz,[1,2,"Fizz",4,"Buzz"],(5,)),
-        (student.fizzbuzz,[1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz"],(10,)),
-        (student.fizzbuzz,[1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz",
-                           11,"Fizz",13,14,"FizzBuzz"],(15,)),
-    ], "fizzbuzz")
-
-    return results
-
+def level(pct):
+    if pct==100: return "Advanced"
+    if pct>=60:  return "Intermediate"
+    return "Beginner"
 
 def main():
-    files = [f for f in os.listdir() if f.startswith("eval3_") and f.endswith(".py")]
+    files = sorted(f for f in os.listdir() if f.startswith("eval4_") and f.endswith(".py"))
+    if not files: print("Aucun fichier eval4_*.py trouvé."); return
 
-    if not files:
-        print("No student files found.")
-        return
-
-    with open("results_eval3.csv", "w") as f:
-        f.write("Name,somme_a,somme_paire_a,somme_while,factorielle,fizzbuzz,Total,Level\n")
-
-        for file in files:
-            student_name = file.replace("eval4_", "").replace(".py", "")
-            student_name = student_name.replace("_", " ").title()
-
+    with open("results_eval4.csv","w",encoding="utf-8") as out:
+        out.write("Name," + ",".join(COLS) + ",Total,Level\n")
+        for f in files:
+            name = f.replace("eval4_","").replace(".py","").replace("_"," ").title()
             try:
-                student = load_student(file)
-                results = grade_student(student)
-
-                print(f"\n--- {student_name} ---")
-
-                total_passed = 0
-                total_tests = 0
-
-                for exercise, (passed, total, failures) in results.items():
-                    print(f"{exercise}: {passed}/{total}")
-                    total_passed += passed
-                    total_tests += total
-
-                    for fail in failures:
-                        print(fail)
-
-                percentage = (total_passed / total_tests) * 100
-
-                if percentage == 100:
-                    level = "Advanced"
-                elif percentage >= 60:
-                    level = "Intermediate"
-                else:
-                    level = "Beginner"
-
-                print(f"\nTOTAL: {total_passed}/{total_tests} ({level})")
-
-                f.write(
-                    f"{student_name},"
-                    f"{results['somme_a'][0]}/{results['somme_a'][1]},"
-                    f"{results['somme_paire_a'][0]}/{results['somme_paire_a'][1]},"
-                    f"{results['somme_liste'][0]}/{results['somme_liste'][1]},"
-                    f"{results['nombre_occurrences'][0]}/{results['nombre_occurrences'][1]},"
-                    f"{results['max_liste'][0]}/{results['max_liste'][1]},"
-                    f"{results['somme_while'][0]}/{results['somme_while'][1]},"
-                    f"{results['factorielle'][0]}/{results['factorielle'][1]},"
-                    f"{results['fizzbuzz'][0]}/{results['fizzbuzz'][1]},"
-                    f"{total_passed}/{total_tests},{level}\n"
-                )
-
-            except Exception:
-                print(f"{student_name}: ERROR")
-                f.write(f"{student_name},ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR\n")
-
+                s = load(f)
+                res = grade(s)
+                tp = sum(p for p,t in res.values())
+                tt = sum(t for p,t in res.values())
+                pct = tp/tt*100
+                row = ",".join(f"{res[c][0]}/{res[c][1]}" for c in COLS)
+                out.write(f"{name},{row},{tp}/{tt},{level(pct)}\n")
+                print(f"{name}: {tp}/{tt} ({level(pct)})")
+            except Exception as e:
+                out.write(f"{name}," + ",".join(["ERROR"]*len(COLS)) + ",ERROR,ERROR\n")
+                print(f"{name}: ERROR — {e}")
 
 if __name__ == "__main__":
     main()
+    print("\nRésultats exportés dans results_eval4.csv")

@@ -73,25 +73,3 @@ print("max_cle          :", max_cle({"a":1,"b":5,"c":3}))         # "b"
 
 print("\nPARTIE 3 ──────────────────────────────")
 print("compter_mots     :", compter_mots("hello world hello"))
-
-    results["compter_elements"] = run_tests_group([
-        (student.compter_elements, {"a":2,"b":1}, (["a","b","a"],)),
-        (student.compter_elements, {}, ([],)),
-    ], "compter_elements")
-
-    results["inverser_dictionnaire"] = run_tests_group([
-        (student.inverser_dictionnaire, {1:"a",2:"b"}, ({"a":1,"b":2},)),
-    ], "inverser_dictionnaire")
-
-    results["somme_valeurs"] = run_tests_group([
-        (student.somme_valeurs, 6, ({"a":1,"b":2,"c":3},)),
-        (student.somme_valeurs, 0, ({},)),
-    ], "somme_valeurs")
-
-    results["max_cle"] = run_tests_group([
-        (student.max_cle, "b", ({"a":1,"b":5,"c":3},)),
-    ], "max_cle")
-    
-    results["compter_mots"] = run_tests_group([
-        (student.compter_mots, {"hello":2,"world":1}, ("hello world hello",)),
-    ], "compter_mots")
