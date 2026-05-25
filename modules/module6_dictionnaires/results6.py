@@ -1,11 +1,11 @@
 import os, importlib.util
- 
+
 def load(f):
     spec = importlib.util.spec_from_file_location(f, f)
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     return m
- 
+
 def run_tests(fn, cases):
     p = 0
     for args, exp in cases:
@@ -13,7 +13,7 @@ def run_tests(fn, cases):
             if fn(*args) == exp: p += 1
         except: pass
     return p, len(cases)
- 
+
 def grade(s):
     res = {}
     res["compter_elements"]     = run_tests(s.compter_elements,     [(([" a","b","a"],),{"a":2,"b":1}),(([],),{}),(([" a"],),{"a":1})])
@@ -25,20 +25,20 @@ def grade(s):
     res["compter_mots"]         = run_tests(s.compter_mots,         [(("hi hi",),{"hi":2}),(("Hello world Hello",),{"Hello":2,"world":1}),(("a",),{"a":1})])
     res["mot_le_plus_frequent"] = run_tests(s.mot_le_plus_frequent, [(("le chat et le chien",),"le"),(("a a a b b",),"a"),(("bonjour",),"bonjour")])
     return res
- 
+
 COLS = ["compter_elements","dico_depuis_listes","inverser_dictionnaire",
         "somme_valeurs","max_cle","filtrer_par_valeur",
         "compter_mots","mot_le_plus_frequent"]
- 
+
 def level(pct):
     if pct==100: return "Advanced"
     if pct>=60:  return "Intermediate"
     return "Beginner"
- 
+
 def main():
     files = sorted(f for f in os.listdir() if f.startswith("eval6_") and f.endswith(".py"))
     if not files: print("Aucun fichier eval6_*.py trouvé."); return
- 
+
     with open("results_eval6.csv","w",encoding="utf-8") as out:
         out.write("Name," + ",".join(COLS) + ",Total,Level\n")
         for f in files:
@@ -55,7 +55,7 @@ def main():
             except Exception as e:
                 out.write(f"{name}," + ",".join(["ERROR"]*len(COLS)) + ",ERROR,ERROR\n")
                 print(f"{name}: ERROR — {e}")
- 
+
 if __name__ == "__main__":
     main()
     print("\nRésultats exportés dans results_eval6.csv")
