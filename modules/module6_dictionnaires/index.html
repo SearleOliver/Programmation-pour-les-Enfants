@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Module Listes et Dictionnaires</title>
+    <title>Module Dictionnaires</title>
     <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
@@ -33,12 +33,12 @@
 <!-- MAIN CONTENT -->
 <div class="main">
 
-    <h1>🔁 Module : Les Listes</h1>
+    <h1>🔁 Module : Les Dictionnaires</h1>
 
     <div class="card">
         <h3>📊 Informations</h3>
-        <span class="tag medium">Intermédiaire</span>
-        <p>📌 Prérequis : Bases, Conditions, Fonctions, Boucles</p>
+        <span class="tag hard">Avancé</span>
+        <p>📌 Prérequis : Bases, Conditions, Fonctions, Boucles, Listes</p>
         <p>🎯 Objectif : Connaître les structures de données.</p>
     </div>
 
@@ -49,33 +49,34 @@
 
         <div class="slide-viewer" id="viewer1">
     
-        <div class="slide-canvas-wrap">
-            <canvas class="slide-canvas"></canvas>
+            <div class="slide-canvas-wrap">
+                <canvas class="slide-canvas"></canvas>
 
-            <div class="slide-loader">
-                <div class="loader-dot"></div>
-                <div class="loader-dot"></div>
-                <div class="loader-dot"></div>
-            </div>
-        </div>
-
-        <div class="slide-controls">
-            <button class="slide-btn btn-prev" disabled>
-                &#8592; Préc.
-            </button>
-
-            <div class="slide-mid">
-                <div class="slide-dots"></div>
-                <div class="slide-counter">— / —</div>
+                <div class="slide-loader">
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
+                </div>
             </div>
 
-            <button class="slide-btn btn-next" disabled>
-                Suiv. &#8594;
-            </button>
-        </div>
+            <div class="slide-controls">
+                <button class="slide-btn btn-prev" disabled>
+                    &#8592; Préc.
+                </button>
 
-        <p class="slide-hint">← → touches clavier · clic sur les points pour sauter à une slide</p>
-        <a class="button" href="" target="_blank" style="margin-top:12px;">⬇ Ouvrir le PDF complet</a>
+                <div class="slide-mid">
+                    <div class="slide-dots"></div>
+                    <div class="slide-counter">— / —</div>
+                </div>
+
+                <button class="slide-btn btn-next" disabled>
+                    Suiv. &#8594;
+                </button>
+            </div>
+
+            <p class="slide-hint">← → clic sur les points pour sauter à une slide</p>
+        </div>
+        <a class="button" href="Slides-Dictionnaires.pdf" target="_blank" style="margin-top:12px;">⬇ Ouvrir le PDF complet</a>
     </div>
 
     <div class="card">
@@ -87,13 +88,13 @@
     <div class="card">
         <h2>📝 Évaluation</h2>
         <p>Teste tes connaissances.</p>
-        <a class="button" href="eval4_vide.py" download>Télécharger</a>
+        <a class="button" href="eval6_vide.py" download>Télécharger</a>
     </div>
 
     <div class="card">
         <h2>🤖 Correction automatique</h2>
         <p>Lance le correcteur pour voir ton niveau.</p>
-        <a class="button" href="grader4.exe" download>Télécharger</a>
+        <a class="button" href="grader6.exe" download>Télécharger</a>
     </div>
 
     <div class="card">
@@ -107,7 +108,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="../../pdfViewer.js"></script>
 <script>
-initPDFViewer("viewer1", "Slides-Module2-Conditions.pdf");
+initPDFViewer("viewer1", "Slides-Dictionnaires.pdf");
 
 </script>
 </body>
