@@ -26,18 +26,18 @@ def group(fn, cases, label, tol=False):
 
 def run(s):
     res = {}
-    res["somme_liste"]        = group(s.somme_liste,        [(([1,2,3,4],),10),(([0],),0),(([5,5],),10)],              "somme_liste")
-    res["min_liste"]          = group(s.min_liste,           [(([3,1,4,1,5],),1),(([9,2,7],),2),(([0],),0)],           "min_liste")
-    res["max_liste"]          = group(s.max_liste,           [(([3,1,4,1,5,9],),9),(([1],),1),(([0,0,0],),0)],         "max_liste")
-    res["moyenne_liste"]      = group(s.moyenne_liste,       [(([2,4,6],),4.0),(([1,2,3],),2.0)],                      "moyenne_liste", tol=True)
-    res["nombre_occurrences"] = group(s.nombre_occurrences,  [(([1,2,2,3],2),2),(([1,1,1],1),3),(([],1),0)],           "nombre_occurrences")
-    res["filtrer_pairs"]      = group(s.filtrer_pairs,       [(([1,2,3,4,5,6],),[2,4,6]),(([1,3,5],),[]),(([2,4],),[2,4])], "filtrer_pairs")
-    res["inverser_liste"]     = group(s.inverser_liste,      [(([1,2,3],),[3,2,1]),(([1],),[1]),(([],),[])],           "inverser_liste")
-    res["fusion_listes"]      = group(s.fusion_listes,       [(([1,2],[3,4]),[1,2,3,4]),(([],[1]),  [1])],             "fusion_listes")
-    res["compter_voyelles"]   = group(s.compter_voyelles,    [(("Bonjour",),3),(("hello",),2),(("bcdf",),0),(("AEIOU",),5)], "compter_voyelles")
-    res["est_palindrome"]     = group(s.est_palindrome,      [(("radar",),True),(("Radar",),True),(("hello",),False),(("kayak",),True)], "est_palindrome")
-    res["inverser_mots"]      = group(s.inverser_mots,       [(("a b c",),"c b a"),(("bonjour monde",),"monde bonjour")], "inverser_mots")
-    res["est_numerique"]      = group(s.est_numerique,       [(("1234",),True),(("12a4",),False),(("",),True),(("0",),True)], "est_numerique")
+    res["somme_liste"] = group(s.somme_liste, [(([1,2,3,4],),10),(([0],),0),(([5,5],),10)], "somme_liste")
+    res["min_liste"] = group(s.min_liste, [(([3,1,4,1,5],),1),(([9,2,7],),2),(([0],),0)], "min_liste")
+    res["max_liste"] = group(s.max_liste, [(([3,1,4,1,5,9],),9),(([1],),1),(([0,0,0],),0)], "max_liste")
+    res["moyenne_liste"] = group(s.moyenne_liste,  [(([2,4,6],),4.0),(([1,2,3],),2.0)], "moyenne_liste", tol=True)
+    res["nombre_occurrences"] = group(s.nombre_occurrences, [(([1,2,2,3],2),2),(([1,1,1],1),3),(([],1),0)], "nombre_occurrences")
+    res["filtrer_pairs"] = group(s.filtrer_pairs, [(([1,2,3,4,5,6],),[2,4,6]),(([1,3,5],),[]),(([2,4],),[2,4])], "filtrer_pairs")
+    res["inverser_liste"] = group(s.inverser_liste, [(([1,2,3],),[3,2,1]),(([1],),[1]),(([],),[])], "inverser_liste")
+    res["fusion_listes"] = group(s.fusion_listes, [(([1,2],[3,4]),[1,2,3,4]),(([],[1]),  [1])],  "fusion_listes")
+    res["compter_voyelles"] = group(s.compter_voyelles, [(("Bonjour",),3),(("hello",),2),(("bcdf",),0),(("AEIOU",),5)], "compter_voyelles")
+    res["est_palindrome"] = group(s.est_palindrome, [(("radar",),True),(("Radar",),True),(("hello",),False),(("kayak",),True)], "est_palindrome")
+    res["inverser_mots"] = group(s.inverser_mots, [(("a b c",),"c b a"),(("bonjour monde",),"monde bonjour")], "inverser_mots")
+    res["est_numerique"] = group(s.est_numerique, [(("1234",),True),(("12a4",),False),(("",),True),(("0",),True)], "est_numerique")
     return res
 
 def display(res):
